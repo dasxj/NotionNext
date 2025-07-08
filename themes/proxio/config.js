@@ -2,15 +2,15 @@
  * 另一个落地页主题
  */
 const CONFIG = {
-    PROXIO_WELCOME_COVER_ENABLE: true, //是否显示页面进入的欢迎文字
+    PROXIO_WELCOME_COVER_ENABLE: false, //是否显示页面进入的欢迎文字
     PROXIO_WELCOME_TEXT: '欢迎来到此网站，点击任意位置进入', // 欢迎文字，留空则不启用
 
     // 英雄区块导航
     PROXIO_HERO_ENABLE: true, // 开启英雄区
-    PROXIO_HERO_TITLE_1: '开源且免费的基于 Notion 笔记的网站构建工具', // 英雄区文字
+    PROXIO_HERO_TITLE_1: '欢迎来到大设小计', // 英雄区文字
     PROXIO_HERO_TITLE_2: '通过笔记无感知地建站、成倍放大您的价值', // 英雄区文字
     // 英雄区两个按钮，如果TEXT留空则隐藏按钮
-    PROXIO_HERO_BUTTON_1_TEXT: '开始体验', // 英雄区按钮
+    PROXIO_HERO_BUTTON_1_TEXT: '开始设计', // 英雄区按钮
     PROXIO_HERO_BUTTON_1_URL:
         'https://docs.tangly1024.com/article/vercel-deploy-notion-next', // 英雄区按钮
     PROXIO_HERO_BUTTON_2_TEXT: '在Github上关注', // 英雄区按钮
@@ -24,7 +24,7 @@ const CONFIG = {
 
     // 文章区块
     PROXIO_BLOG_ENABLE: true, // 首页博文区块开关
-    PROXIO_BLOG_TITLE: '作品',
+    PROXIO_BLOG_TITLE: '过往案例',
     PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
     PROXIO_BLOG_TEXT_1: '我的最新动态',
 
