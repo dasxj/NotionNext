@@ -64,7 +64,7 @@ const CONFIG = {
     PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
 
     // 首页生涯区块
-    PROXIO_CAREER_ENABLE: true, // 区块开关
+    PROXIO_CAREER_ENABLE: false, // 区块开关
     PROXIO_CAREER_TITLE: '生涯',
     PROXIO_CAREER_TEXT:
         '以下是我的职业生涯',
@@ -77,7 +77,7 @@ const CONFIG = {
     ],
 
     // 首页用户测评区块
-    PROXIO_TESTIMONIALS_ENABLE: true, // 测评区块开关
+    PROXIO_TESTIMONIALS_ENABLE: false, // 测评区块开关
     PROXIO_TESTIMONIALS_TITLE: '用户反馈',
     PROXIO_TESTIMONIALS_TEXT_1: '我们的用户怎么说',
     PROXIO_TESTIMONIALS_TEXT_2:
@@ -158,10 +158,9 @@ const CONFIG = {
 
     // 关于作者区块
     PROXIO_ABOUT_ENABLE: true, // 关于作者区块区块开关
-    PROXIO_ABOUT_TITLE: '关于作者',
-    PROXIO_ABOUT_TEXT_1: 'I am an Architect Turned Into a Product Designer',
+    PROXIO_ABOUT_TITLE: '服务范畴',
+    PROXIO_ABOUT_TEXT_1: '空间是相通且交互的，我们坚持保持好奇，不断探索不同业态、融合多视角，思考更多空间的可能性。',
     PROXIO_ABOUT_TEXT_2:
-        'With a background in architecture, I now apply my expertise to product design, blending aesthetics, functionality, and innovation. My goal is to create modern, user-focused designs that bring your vision to life.',
     PROXIO_ABOUT_PHOTO_URL: '/avatar.png',
     PROXIO_ABOUT_KEY_1: '经验年限',
     PROXIO_ABOUT_VAL_1: '10年+',
@@ -173,7 +172,7 @@ const CONFIG = {
     PROXIO_ABOUT_VAL_4: '10000+',
 
     PROXIO_ABOUT_BUTTON_URL: '/about',
-    PROXIO_ABOUT_BUTTON_TEXT: '关于我',
+    PROXIO_ABOUT_BUTTON_TEXT: '项目',
 
     // 横向滚动文字
     PROXIO_BRANDS_ENABLE: true, // 滚动文字
@@ -190,38 +189,30 @@ const CONFIG = {
     // 页脚菜单
     PROXIO_FOOTER_LINKS: [
         {
-            name: '友情链接',
+            name: '联系我们',
             menus: [
                 {
-                    title: 'Tangly的学习笔记',
-                    href: 'https://blog.tangly1024.com'
+                    title: '',
+                    href: ''
                 },
                 {
-                    title: 'NotionNext',
-                    href: 'https://www.tangly1024.com'
+                    title: '',
+                    href: ''
                 }
             ]
         },
         {
-            name: '开发者',
+            name: '',
             menus: [
-                { title: 'Github', href: 'https://github.com/tangly1024/NotionNext' },
+                { title: '', href: '' },
                 {
-                    title: '开发帮助',
-                    href: 'https://docs.tangly1024.com/article/how-to-develop-with-notion-next'
+                    title: '',
+                    href: ''
                 },
                 {
-                    title: '功能反馈',
-                    href: 'https://github.com/tangly1024/NotionNext/issues/new/choose'
+                    title: '',
+                    href: ''
                 },
-                {
-                    title: '技术讨论',
-                    href: 'https://github.com/tangly1024/NotionNext/discussions'
-                },
-                {
-                    title: '关于作者',
-                    href: 'https://blog.tangly1024.com/about'
-                }
             ]
         }],
 
@@ -246,7 +237,7 @@ const CONFIG = {
     PROXIO_CTA_TITLE: '与我建立联系',
     PROXIO_CTA_TITLE_2: '让我们立刻启动您的项目',
     PROXIO_CTA_DESCRIPTION:
-        '访问NotionNext的操作文档，我们提供了详细的教程，帮助你即刻搭建站点',
+        '我们提供了详细的流程，帮助您实现设计',
     PROXIO_CTA_BUTTON: true, // 是否显示按钮
     PROXIO_CTA_BUTTON_URL:
         '/about',
