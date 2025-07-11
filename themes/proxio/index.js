@@ -76,12 +76,12 @@ const LayoutBase = props => {
             <Footer {...props} />
 
             {/* 悬浮按钮 */}
-            <BackToTopButton />
+            </>
 
             {/* 鼠标阻尼动画 */}
-            <Lenis />
+            <>
             {/* 鼠标跟随动画 */}
-            <CursorDot />
+            <>
             {/* <MadeWithButton/> */}
         </div>
     )
