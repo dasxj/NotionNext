@@ -60,11 +60,6 @@ const CONFIG = {
   STARTER_FEATURE_4_BUTTON_TEXT: '了解更多', // 特性4
   STARTER_FEATURE_4_BUTTON_URL: 'https://docs.tangly1024.com/about', // 特性4
 
-  STARTER_FEATURE_4_TITLE_1: '其他', // 特性5
-  STARTER_FEATURE_4_TEXT_1: '其他类型', // 特性4
-  STARTER_FEATURE_4_BUTTON_TEXT: '了解更多', // 特性4
-  STARTER_FEATURE_4_BUTTON_URL: 'https://docs.tangly1024.com/about', // 特性4
-      
   // 首页ABOUT区块
   STARTER_ABOUT_ENABLE: true, // ABOUT区块开关
   STARTER_ABOUT_TITLE: '设计流程',
