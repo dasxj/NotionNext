@@ -36,7 +36,7 @@ const CONFIG = {
   HEXO_WIDGET_TO_TOP: true,
   HEXO_WIDGET_TO_COMMENT: true, // 跳到评论区
   HEXO_WIDGET_DARK_MODE: false, // 夜间模式
-  HEXO_WIDGET_TOC: true, // 移动端悬浮目录
+  HEXO_WIDGET_TOC: false, // 移动端悬浮目录
 
   HEXO_THEME_COLOR: '#ebd61e' // 主题色配置（默认为 #928CEE）
 }
