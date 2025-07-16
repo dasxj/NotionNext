@@ -33,7 +33,7 @@ const CONFIG = {
 
   HEXO_WIDGET_LATEST_POSTS: false, // 显示最新文章卡
   HEXO_WIDGET_ANALYTICS: false, // 显示统计卡
-  HEXO_WIDGET_TO_TOP: false,
+  HEXO_WIDGET_TO_TOP: true,
   HEXO_WIDGET_TO_COMMENT: false, // 跳到评论区
   HEXO_WIDGET_DARK_MODE: true, // 夜间模式
   HEXO_WIDGET_TOC: true, // 移动端悬浮目录
