@@ -1,6 +1,7 @@
 import QrCode from '@/components/QrCode'
 import { siteConfig } from '@/lib/config'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { handleEmailClick } from '@/lib/plugins/mailEncrypt'
 
 /**
  * 社交联系方式按钮组
@@ -32,6 +33,9 @@ const SocialButton = () => {
   const closePopover = () => {
     setQrCodeShow(false)
   }
+
+  const emailIcon = useRef(null)
+
   return (
     <div className='w-full justify-center flex-wrap flex'>
       <div className='space-x-3 text-xl flex items-center text-gray-600 dark:text-gray-300 '>
@@ -50,7 +54,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'twitter'}
             href={CONTACT_TWITTER}>
-            <i className='transform hover:scale-125 duration-150 fab fa-twitter dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fa-solid fa-phone dark:hover:text-indigo-400 hover:text-indigo-600' />
           </a>
         )}
         {CONTACT_TELEGRAM && (
@@ -91,10 +95,10 @@ const SocialButton = () => {
         )}
         {CONTACT_EMAIL && (
           <a
-            target='_blank'
-            rel='noreferrer'
-            title={'email'}
-            href={`mailto:${CONTACT_EMAIL}`}>
+            onClick={e => handleEmailClick(e, emailIcon, CONTACT_EMAIL)}
+            title='email'
+            className='cursor-pointer'
+            ref={emailIcon}>
             <i className='transform hover:scale-125 duration-150 fas fa-envelope dark:hover:text-indigo-400 hover:text-indigo-600' />
           </a>
         )}
