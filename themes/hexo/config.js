@@ -2,10 +2,7 @@ const CONFIG = {
   HEXO_HOME_BANNER_ENABLE: true,
   // 3.14.1以后的版本中，欢迎语在blog.config.js中配置，用英文逗号','隔开多个。
   HEXO_HOME_BANNER_GREETINGS: [
-    'Hi，我是一个程序员',
-    'Hi，我是一个打工人',
-    'Hi，我是一个干饭人',
-    '欢迎来到我的博客🎉'
+   
   ], // 首页大图标语文字
 
   HEXO_HOME_NAV_BUTTONS: true, // 首页是否显示分类大图标按钮
@@ -35,13 +32,13 @@ const CONFIG = {
   HEXO_ARTICLE_NOT_BY_AI: false, // 显示非AI写作
   HEXO_ARTICLE_RECOMMEND: true, // 文章关联推荐
 
-  HEXO_WIDGET_LATEST_POSTS: true, // 显示最新文章卡
+  HEXO_WIDGET_LATEST_POSTS: false, // 显示最新文章卡
   HEXO_WIDGET_ANALYTICS: false, // 显示统计卡
   HEXO_WIDGET_TO_TOP: true,
-  HEXO_WIDGET_TO_COMMENT: true, // 跳到评论区
+  HEXO_WIDGET_TO_COMMENT: false, // 跳到评论区
   HEXO_WIDGET_DARK_MODE: true, // 夜间模式
   HEXO_WIDGET_TOC: true, // 移动端悬浮目录
 
-  HEXO_THEME_COLOR: '#928CEE' // 主题色配置（默认为 #928CEE）
+  HEXO_THEME_COLOR: ''#ebd61e' // 主题色配置（默认为 #928CEE）
 }
 export default CONFIG
