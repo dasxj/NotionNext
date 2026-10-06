@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import SmartLink from '@/components/SmartLink'
 
 // 解析面积字符串数字：'1100㎡' -> 1100
@@ -29,6 +29,8 @@ const isPlaceholderCover = c =>
 
 /**
  * /zl 案例平台首页：横幅轮播 + 筛选栏 + 案例卡片网格
+ * 设计师/项目位置不在筛选栏中，而是作为卡片上的可点击字段标签，
+ * 点击后跳转 /zl?designer=XX 或 /zl?location=XX 显示该值下的全部项目。
  */
 const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
   const router = useRouter()
@@ -38,9 +40,18 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
   const [style, setStyle] = useState('全部') // 风格
   const [sort, setSort] = useState('latest') // latest / hot
   const [designer, setDesigner] = useState('全部') // 设计师关联筛选
-  const [location, setLocation] = useState('全部') // 项目位置关联筛选
+  const [projectLocation, setProjectLocation] = useState('全部') // 项目位置关联筛选
   const [areaMin, setAreaMin] = useState('')
   const [areaMax, setAreaMax] = useState('')
+
+  // —— 从 URL 参数初始化关联筛选（点击卡片上的设计师/位置标签跳转而来）——
+  useEffect(() => {
+    const d = router.query?.designer
+    const l = router.query?.location
+    if (d) setDesigner(typeof d === 'string' ? d : d[0])
+    if (l) setProjectLocation(typeof l === 'string' ? l : l[0])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query?.designer, router.query?.location])
 
   // —— 浏览量（热门排序用）——
   const [pvMap, setPvMap] = useState({})
@@ -61,23 +72,11 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
     return Array.from(set).filter(Boolean)
   }, [posts])
 
-  // —— 动态聚合设计师 / 项目位置选项 ——
-  const designerOptions = useMemo(() => {
-    const set = new Set()
-    posts.forEach(p => (p['设计师'] || []).forEach(s => set.add(s)))
-    return Array.from(set).filter(Boolean)
-  }, [posts])
-  const locationOptions = useMemo(() => {
-    const set = new Set()
-    posts.forEach(p => (p['项目位置'] || []).forEach(s => set.add(s)))
-    return Array.from(set).filter(Boolean)
-  }, [posts])
-
   // —— 拉取浏览量 ——
   useEffect(() => {
     let alive = true
     posts.forEach(p => {
-      const url = `${location.origin || 'https://www.dsxj.xyz'}${p.href || '/'}`
+      const url = 'https://www.dsxj.xyz' + (p.href || '/')
       fetchPagePv(url).then(pv => {
         if (alive) setPvMap(m => ({ ...m, [p.id]: pv }))
       })
@@ -92,7 +91,7 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
     if (space !== '全部') list = list.filter(p => p.category === space)
     if (style !== '全部') list = list.filter(p => (p['风格'] || []).includes(style))
     if (designer !== '全部') list = list.filter(p => (p['设计师'] || []).includes(designer))
-    if (location !== '全部') list = list.filter(p => (p['项目位置'] || []).includes(location))
+    if (projectLocation !== '全部') list = list.filter(p => (p['项目位置'] || []).includes(projectLocation))
     const min = parseArea(areaMin)
     const max = parseArea(areaMax)
     if (min != null || max != null) {
@@ -110,15 +109,25 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
       list = [...list].sort((a, b) => (pvMap[b.id] || 0) - (pvMap[a.id] || 0))
     }
     return list
-  }, [posts, space, style, designer, location, areaMin, areaMax, sort, pvMap])
+  }, [posts, space, style, designer, projectLocation, areaMin, areaMax, sort, pvMap])
 
   const hasActiveFilter =
     space !== '全部' || style !== '全部' || designer !== '全部' ||
-    location !== '全部' || areaMin !== '' || areaMax !== '' || sort !== 'latest'
+    projectLocation !== '全部' || areaMin !== '' || areaMax !== '' || sort !== 'latest'
 
   const resetFilter = () => {
-    setSpace('全部'); setStyle('全部'); setDesigner('全部'); setLocation('全部')
+    setSpace('全部'); setStyle('全部'); setDesigner('全部'); setProjectLocation('全部')
     setAreaMin(''); setAreaMax(''); setSort('latest')
+    router.replace('/zl', undefined, { shallow: true })
+  }
+
+  const clearDesigner = () => {
+    setDesigner('全部')
+    router.replace('/zl', undefined, { shallow: true })
+  }
+  const clearLocation = () => {
+    setProjectLocation('全部')
+    router.replace('/zl', undefined, { shallow: true })
   }
 
   return (
@@ -176,6 +185,27 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
 
       {/* ===== 筛选栏 ===== */}
       <div className='max-w-6xl mx-auto px-4 md:px-6 pt-6 pb-2'>
+        {/* 当前关联筛选（点击卡片上的设计师/位置标签后显示，可清除） */}
+        {(designer !== '全部' || projectLocation !== '全部') && (
+          <div className='flex flex-wrap items-center gap-2 mb-3 text-sm'>
+            <span className='text-neutral-400 whitespace-nowrap'>当前筛选：</span>
+            {designer !== '全部' && (
+              <button
+                onClick={clearDesigner}
+                className='flex items-center gap-1 px-2.5 py-1 rounded-full border border-neutral-200 text-neutral-700 hover:border-neutral-900'>
+                设计师：{designer} <span className='text-neutral-400'>×</span>
+              </button>
+            )}
+            {projectLocation !== '全部' && (
+              <button
+                onClick={clearLocation}
+                className='flex items-center gap-1 px-2.5 py-1 rounded-full border border-neutral-200 text-neutral-700 hover:border-neutral-900'>
+                位置：{projectLocation} <span className='text-neutral-400'>×</span>
+              </button>
+            )}
+          </div>
+        )}
+
         <div className='flex flex-wrap items-center gap-2 mb-2'>
           <span className='text-sm text-neutral-400 whitespace-nowrap'>空间分类</span>
           <button
@@ -209,48 +239,6 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
             </button>
           ))}
         </div>
-
-        {/* 设计师 / 项目位置 关联筛选 */}
-        {(designerOptions.length > 0 || locationOptions.length > 0) && (
-          <div className='flex flex-wrap items-center gap-2 mb-2'>
-            {designerOptions.length > 0 && (
-              <>
-                <span className='text-sm text-neutral-400 whitespace-nowrap'>设计师</span>
-                <button
-                  onClick={() => setDesigner('全部')}
-                  className={`px-3 py-1 rounded-full text-sm border ${designer === '全部' ? 'bg-neutral-900 text-white border-neutral-900' : 'border-neutral-200 text-neutral-600 hover:border-neutral-900'}`}>
-                  全部
-                </button>
-                {designerOptions.map(d => (
-                  <button
-                    key={d}
-                    onClick={() => setDesigner(d)}
-                    className={`px-3 py-1 rounded-full text-sm border ${designer === d ? 'bg-neutral-900 text-white border-neutral-900' : 'border-neutral-200 text-neutral-600 hover:border-neutral-900'}`}>
-                    {d}
-                  </button>
-                ))}
-              </>
-            )}
-            {locationOptions.length > 0 && (
-              <>
-                <span className='text-sm text-neutral-400 whitespace-nowrap ml-2'>项目位置</span>
-                <button
-                  onClick={() => setLocation('全部')}
-                  className={`px-3 py-1 rounded-full text-sm border ${location === '全部' ? 'bg-neutral-900 text-white border-neutral-900' : 'border-neutral-200 text-neutral-600 hover:border-neutral-900'}`}>
-                  全部
-                </button>
-                {locationOptions.map(l => (
-                  <button
-                    key={l}
-                    onClick={() => setLocation(l)}
-                    className={`px-3 py-1 rounded-full text-sm border ${location === l ? 'bg-neutral-900 text-white border-neutral-900' : 'border-neutral-200 text-neutral-600 hover:border-neutral-900'}`}>
-                    {l}
-                  </button>
-                ))}
-              </>
-            )}
-          </div>
-        )}
 
         {/* 面积区间 + 排序 */}
         <div className='flex flex-wrap items-center gap-3 pt-1 border-t border-neutral-100 mt-1'>
@@ -298,8 +286,8 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
         ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
             {filteredPosts.map(p => (
-              <SmartLink key={p.id} href={`/zl${p.href}`}>
-                <div className='group bg-white overflow-hidden'>
+              <div key={p.id} className='group bg-white overflow-hidden'>
+                <SmartLink href={`/zl${p.href}`}>
                   <div className='aspect-[4/3] overflow-hidden bg-neutral-100'>
                     {isPlaceholderCover(p.pageCover) ? (
                       <div className='w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900 flex items-center justify-center p-4'>
@@ -314,16 +302,29 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
                       />
                     )}
                   </div>
-                  <div className='py-3'>
-                    <div className='text-sm font-medium text-neutral-900 line-clamp-1'>{p.title}</div>
-                    <div className='mt-1 flex items-center gap-2 text-xs text-neutral-400'>
-                      {p.category && <span>{p.category}</span>}
-                      {(p['风格'] || []).slice(0, 2).map(s => <span key={s}>{s}</span>)}
-                      {p['设计师']?.[0] && <span className='ml-auto'>{p['设计师'][0]}</span>}
-                    </div>
+                </SmartLink>
+                <div className='py-3'>
+                  <SmartLink href={`/zl${p.href}`}>
+                    <div className='text-sm font-medium text-neutral-900 line-clamp-1 hover:text-neutral-600'>{p.title}</div>
+                  </SmartLink>
+                  <div className='mt-1 flex items-center gap-2 text-xs text-neutral-400'>
+                    {p.category && <span>{p.category}</span>}
+                    {(p['风格'] || []).slice(0, 2).map(s => <span key={s}>{s}</span>)}
+                    <span className='ml-auto flex items-center gap-2'>
+                      {p['设计师']?.[0] && (
+                        <SmartLink href={`/zl?designer=${encodeURIComponent(p['设计师'][0])}`} className='hover:text-neutral-900'>
+                          {p['设计师'][0]}
+                        </SmartLink>
+                      )}
+                      {p['项目位置']?.[0] && (
+                        <SmartLink href={`/zl?location=${encodeURIComponent(p['项目位置'][0])}`} className='hover:text-neutral-900'>
+                          {p['项目位置'][0]}
+                        </SmartLink>
+                      )}
+                    </span>
                   </div>
                 </div>
-              </SmartLink>
+              </div>
             ))}
           </div>
         )}
