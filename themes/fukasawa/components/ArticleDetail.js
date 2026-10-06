@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Comment from '@/components/Comment'
 import { AdSlot } from '@/components/GoogleAdsense'
 import LazyImage from '@/components/LazyImage'
@@ -21,6 +22,7 @@ import TagItemMini from './TagItemMini'
 export default function ArticleDetail(props) {
   const { post, prev, next } = props
   const { locale, fullWidth } = useGlobal()
+  const [tocOpen, setTocOpen] = useState(false)
 
   if (!post) {
     return <></>
@@ -29,11 +31,33 @@ export default function ArticleDetail(props) {
     <div
       id='container'
       className={`${fullWidth ? 'px-10 xl:pl-56' : 'max-w-5xl xl:pl-56'} overflow-x-auto flex-grow mx-auto w-screen md:w-full`}>
-      {/* 左侧固定目录：不随页面滚动，仅宽屏显示 */}
+      {/* 左侧固定目录：宽屏显示，垂直居中，占位少 */}
       {post?.toc?.length > 0 && (
-        <aside className='fixed left-0 top-16 z-30 w-36 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-2 text-sm text-neutral-600'>
-          <Catalog toc={post.toc} />
-        </aside>
+        <>
+          <aside className='fixed left-0 top-1/2 -translate-y-1/2 z-30 w-32 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-1 text-xs text-neutral-600'>
+            <Catalog toc={post.toc} />
+          </aside>
+
+          {/* 手机：目录浮标按钮 */}
+          <button
+            onClick={() => setTocOpen(!tocOpen)}
+            className='fixed left-1 top-1/2 -translate-y-1/2 z-40 xl:hidden text-neutral-500 hover:text-[#f0a500] text-lg leading-none'>
+            <i className='fas fa-list' />
+          </button>
+
+          {/* 手机：展开的目录抽屉 */}
+          {tocOpen && (
+            <div className='fixed inset-y-0 left-0 z-50 w-56 bg-white shadow-xl p-4 overflow-y-auto xl:hidden'>
+              <div className='flex justify-between items-center mb-3 text-neutral-700 font-medium text-sm'>
+                <span>目录</span>
+                <button onClick={() => setTocOpen(false)} className='text-neutral-400 hover:text-neutral-700'>
+                  <i className='fas fa-times' />
+                </button>
+              </div>
+              <Catalog toc={post.toc} />
+            </div>
+          )}
+        </>
       )}
       {post?.type && !post?.type !== 'Page' && post?.pageCover && (
         <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
