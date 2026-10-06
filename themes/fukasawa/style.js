@@ -16,6 +16,14 @@ const Style = () => {
         background-color: black;
     }
 
+    /* 黑金深色：fukasawa 主容器与文章区深色背景改为近黑（覆盖全局 hexo-black-gray 深蓝灰） */
+    .dark #theme-fukasawa main,
+    .dark #theme-fukasawa article,
+    .dark #theme-fukasawa .article,
+    .dark #theme-fukasawa .card {
+        background-color: #0a0a0a;
+    }
+
     /* fukasawa的首页响应式分栏 */
     #theme-fukasawa .grid-item {
         height: auto;
