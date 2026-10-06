@@ -94,19 +94,33 @@ export default function ArticleDetail(props) {
                 </>
               )}
 
-              {post?.type !== 'Page' && (
-                <>
-                  <SmartLink
-                    href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
-                    passHref
-                    className='pl-1 mr-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 border-b dark:border-gray-500 border-dashed'>
-                    {post?.publishDay}
-                  </SmartLink>
-                  <span className='mr-2'>|</span>
-                  <span className='mx-2 text-gray-400 dark:text-gray-500'>
-                    {locale.COMMON.LAST_EDITED_TIME}: {post.lastEditedDay}
-                  </span>
-                </>
+              {(post?.['设计师']?.[0] ||
+                post?.['项目位置']?.[0] ||
+                post?.['项目面积']) && (
+                <div className='flex flex-wrap items-center gap-x-4 gap-y-1 text-neutral-600 mt-1'>
+                  {post?.['设计师']?.[0] && (
+                    <SmartLink
+                      href={`/zl?designer=${encodeURIComponent(post['设计师'][0])}`}
+                      className='flex items-center cursor-pointer hover:text-[#f0a500]'>
+                      <i className='mr-1.5 fas fa-user-pen text-[#f0a500]' />
+                      {post['设计师'][0]}
+                    </SmartLink>
+                  )}
+                  {post?.['项目位置']?.[0] && (
+                    <SmartLink
+                      href={`/zl?location=${encodeURIComponent(post['项目位置'][0])}`}
+                      className='flex items-center cursor-pointer hover:text-[#f0a500]'>
+                      <i className='mr-1.5 fas fa-location-dot text-[#f0a500]' />
+                      {post['项目位置'][0]}
+                    </SmartLink>
+                  )}
+                  {post?.['项目面积'] && (
+                    <span className='flex items-center'>
+                      <i className='mr-1.5 fas fa-ruler-combined text-[#f0a500]' />
+                      {post['项目面积']}
+                    </span>
+                  )}
+                </div>
               )}
 
               <div className='my-2'>
