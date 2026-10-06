@@ -21,7 +21,11 @@ const Style = () => {
     .dark #theme-fukasawa article,
     .dark #theme-fukasawa .article,
     .dark #theme-fukasawa .card {
-        background-color: #0a0a0a;
+        background-color: #0a0a0a !important;
+    }
+    .dark #theme-fukasawa #wrapper,
+    .dark #theme-fukasawa #container-inner {
+        background-color: #0a0a0a !important;
     }
 
     /* fukasawa的首页响应式分栏 */
