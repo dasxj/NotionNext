@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { compressImage } from '@/lib/db/notion/mapImage'
 
 /**
  * 全屏图片查看器：替换 medium-zoom
  * - 点击正文内可放大图片 → 全屏查看
  * - 鼠标滚轮：跟随鼠标位置缩放
+ * - 长按鼠标中键拖动：平移图片位置
  * - 左右方向键：按顺序切换同文章的所有图片
  * - Esc / 点击背景：关闭
  * 挂在 NotionPage 外层，通过事件委托捕获正文内 img 点击。
@@ -15,8 +16,10 @@ const ImageViewer = () => {
     list: [],
     index: -1,
     scale: 1,
-    origin: { x: 50, y: 50 }
+    origin: { x: 50, y: 50 },
+    pan: { x: 0, y: 0 }
   })
+  const drag = useRef(null)
 
   const open = (src, list) => {
     const i = list.indexOf(src)
@@ -25,7 +28,8 @@ const ImageViewer = () => {
       list,
       index: i >= 0 ? i : 0,
       scale: 1,
-      origin: { x: 50, y: 50 }
+      origin: { x: 50, y: 50 },
+      pan: { x: 0, y: 0 }
     })
   }
   const close = () => setState(s => ({ ...s, open: false }))
@@ -33,7 +37,7 @@ const ImageViewer = () => {
     setState(s => {
       if (s.list.length <= 1) return s
       const ni = (s.index + dir + s.list.length) % s.list.length
-      return { ...s, index: ni, scale: 1, origin: { x: 50, y: 50 } }
+      return { ...s, index: ni, scale: 1, origin: { x: 50, y: 50 }, pan: { x: 0, y: 0 } }
     })
 
   // —— 事件委托：点击正文内无有效链接包裹的图片 → 打开查看器 ——
@@ -77,6 +81,49 @@ const ImageViewer = () => {
     return () => window.removeEventListener('wheel', onWheel, { passive: false })
   }, [state.open])
 
+  // —— 长按鼠标中键拖动：平移图片位置 ——
+  useEffect(() => {
+    if (!state.open) return
+    const onMouseDown = e => {
+      if (e.button === 1) {
+        e.preventDefault()
+        drag.current = {
+          startX: e.clientX,
+          startY: e.clientY,
+          panX: state.pan.x,
+          panY: state.pan.y
+        }
+        document.body.style.cursor = 'grabbing'
+      }
+    }
+    const onMouseMove = e => {
+      if (drag.current) {
+        setState(s => ({
+          ...s,
+          pan: {
+            x: drag.current.panX + (e.clientX - drag.current.startX),
+            y: drag.current.panY + (e.clientY - drag.current.startY)
+          }
+        }))
+      }
+    }
+    const onMouseUp = e => {
+      if (e.button === 1) {
+        drag.current = null
+        document.body.style.cursor = ''
+      }
+    }
+    window.addEventListener('mousedown', onMouseDown)
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+    return () => {
+      window.removeEventListener('mousedown', onMouseDown)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+      document.body.style.cursor = ''
+    }
+  }, [state.open])
+
   // —— 键盘：左右切换图片 / Esc 关闭 ——
   useEffect(() => {
     if (!state.open) return
@@ -105,9 +152,11 @@ const ImageViewer = () => {
           maxWidth: '95%',
           maxHeight: '95%',
           objectFit: 'contain',
-          transform: `scale(${state.scale})`,
+          transform: `translate(${state.pan.x}px, ${state.pan.y}px) scale(${state.scale})`,
           transformOrigin: `${state.origin.x}% ${state.origin.y}%`,
-          transition: state.scale === 1 ? 'transform .2s' : 'none',
+          transition: state.scale === 1 && state.pan.x === 0 && state.pan.y === 0
+            ? 'transform .2s'
+            : 'none',
           cursor: 'zoom-out'
         }}
       />
@@ -132,7 +181,7 @@ const ImageViewer = () => {
       )}
 
       <div className='absolute bottom-3 left-1/2 -translate-x-1/2 text-white/50 text-xs bg-black/40 px-3 py-1 rounded-full'>
-        滚轮缩放 · ← → 切换 · Esc 关闭
+        滚轮缩放 · 中键拖动 · ← → 切换 · Esc 关闭
       </div>
     </div>
   )
