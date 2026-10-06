@@ -77,21 +77,32 @@ const DesignProcess = ({ post }) => {
   if (!data || data.length === 0) return null
 
   return (
-    <div className='w-full relative'>
-      {/* 纵向引导线（贯穿各阶段序号，形成时间轴；深色为暗金） */}
-      <div className='absolute left-6 top-4 bottom-4 w-0.5 bg-neutral-200 dark:bg-[#f0a500]/40' />
+    <div className='w-full'>
+      {/* 顶部居中标题（参考图2：主标题 + 副标题） */}
+      <div className='text-center mb-10'>
+        <h2 className='text-3xl md:text-4xl font-semibold text-neutral-900 dark:text-[#f0a500]'>
+          {post?.title || '设计流程'}
+        </h2>
+        <p className='mt-3 text-neutral-500 dark:text-[#c9a55c] max-w-xl mx-auto'>
+          从前期沟通到项目交付，每一步流程清晰透明、全程可参与。
+        </p>
+      </div>
 
-      {data.map((g, i) => (
-        <div key={g.stage || i} className={`relative flex gap-5 ${i > 0 ? 'mt-6' : ''}`}>
-          {/* 黄色圆形序号（覆盖在引导线上） */}
-          <div className='relative z-10 w-12 flex-shrink-0'>
-            <div className='w-12 h-12 rounded-full bg-[#f0a500] text-white flex items-center justify-center text-lg font-semibold'>
-              {String(i + 1).padStart(2, '0')}
+      <div className='relative'>
+        {/* 纵向引导线（细金色） */}
+        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#f0a500]/40 dark:bg-[#f0a500]/50' />
+
+        {data.map((g, i) => (
+          <div key={g.stage || i} className={`relative flex gap-6 ${i > 0 ? 'mt-6' : ''}`}>
+            {/* 黄色圆形序号（覆盖在引导线上，文字用背景色） */}
+            <div className='relative z-10 w-16 flex-shrink-0'>
+              <div className='w-16 h-16 rounded-full bg-[#f0a500] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
+                {String(i + 1).padStart(2, '0')}
+              </div>
             </div>
-          </div>
 
           {/* 右侧内容块：圆角矩形背景（深色黑金） */}
-          <div className='flex-1 min-w-0 rounded-2xl border border-neutral-100 dark:border-[#f0a500]/25 bg-neutral-50/70 dark:bg-[#0a0a0a] p-5 md:p-7'>
+          <div className='flex-1 min-w-0 rounded-2xl border border-neutral-100 dark:border-[#f0a500]/25 bg-neutral-50/70 dark:bg-[#0a0a0a] p-5 md:p-7 transition-all duration-300 hover:border-[#f0a500]/70 hover:shadow-[0_0_24px_rgba(240,165,0,0.12)]'>
             <div className='flex items-center justify-between flex-wrap gap-2'>
               <h3 className='text-2xl font-semibold text-neutral-900 dark:text-[#d4b36a]'>
                 {g.stage}
@@ -132,7 +143,8 @@ const DesignProcess = ({ post }) => {
             </div>
           </div>
         </div>
-      ))}
+        ))}
+        </div>
     </div>
   )
 }

@@ -70,7 +70,7 @@ export default function ArticleDetail(props) {
         </div>
       )}
 
-      <article className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-24 md:px-32  dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+      <article className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-24 md:px-32  dark:border-gray-700 bg-white dark:bg-[#0a0a0a]'>
         <header>
           {/* 文章Title */}
           <div className='font-bold text-4xl text-black dark:text-white'>
@@ -149,7 +149,7 @@ export default function ArticleDetail(props) {
       {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
 
       {/* 评论互动 */}
-      <div className='duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-hexo-black-gray'>
+      <div className='duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-[#0a0a0a]'>
         <Comment frontMatter={post} />
       </div>
     </div>
