@@ -6,6 +6,7 @@ import { useMemo } from 'react'
  *   - 左侧黄色圆形序号 + 纵向引导线（时间轴）
  *   - 右侧阶段内容放入圆角矩形背景块（阶段名 + 用时 + 子项列表）
  * 全部阶段纵向展示在一页。
+ * 深色模式采用容大设计「黑金」配色：近黑背景 + 金色强调。
  * 数据完全动态读取 Notion「设计流程」数据库，不写死阶段名/项目/用时。
  */
 const DesignProcess = ({ post }) => {
@@ -77,8 +78,8 @@ const DesignProcess = ({ post }) => {
 
   return (
     <div className='w-full relative'>
-      {/* 纵向引导线（贯穿各阶段序号，形成时间轴） */}
-      <div className='absolute left-6 top-4 bottom-4 w-0.5 bg-neutral-200 dark:bg-gray-700' />
+      {/* 纵向引导线（贯穿各阶段序号，形成时间轴；深色为暗金） */}
+      <div className='absolute left-6 top-4 bottom-4 w-0.5 bg-neutral-200 dark:bg-[#f0a500]/40' />
 
       {data.map((g, i) => (
         <div key={g.stage || i} className={`relative flex gap-5 ${i > 0 ? 'mt-6' : ''}`}>
@@ -89,14 +90,14 @@ const DesignProcess = ({ post }) => {
             </div>
           </div>
 
-          {/* 右侧内容块：圆角矩形背景 */}
-          <div className='flex-1 min-w-0 rounded-2xl border border-neutral-100 dark:border-gray-700 bg-neutral-50/70 dark:bg-gray-800/60 p-5 md:p-7'>
+          {/* 右侧内容块：圆角矩形背景（深色黑金） */}
+          <div className='flex-1 min-w-0 rounded-2xl border border-neutral-100 dark:border-[#f0a500]/25 bg-neutral-50/70 dark:bg-[#0a0a0a] p-5 md:p-7'>
             <div className='flex items-center justify-between flex-wrap gap-2'>
-              <h3 className='text-2xl font-semibold text-neutral-900 dark:text-gray-100'>
+              <h3 className='text-2xl font-semibold text-neutral-900 dark:text-[#d4b36a]'>
                 {g.stage}
               </h3>
               {g.duration && (
-                <span className='text-sm text-neutral-500 dark:text-gray-400 whitespace-nowrap'>
+                <span className='text-sm text-neutral-500 dark:text-[#c9a55c] whitespace-nowrap'>
                   {g.duration}
                 </span>
               )}
@@ -107,19 +108,19 @@ const DesignProcess = ({ post }) => {
               {g.items.map(item => (
                 <div
                   key={item.id}
-                  className='flex items-baseline justify-between gap-3 py-2.5 border-b border-dashed border-neutral-100 dark:border-gray-700 last:border-0'>
-                  <span className='text-neutral-800 dark:text-gray-200'>
+                  className='flex items-baseline justify-between gap-3 py-2.5 border-b border-dashed border-neutral-100 dark:border-[#f0a500]/15 last:border-0'>
+                  <span className='text-neutral-800 dark:text-[#ece4d3]'>
                     <span className='text-[#f0a500] font-medium mr-2 whitespace-nowrap'>
                       {item.title.split(' ')[0]}
                     </span>
                     {item.title.split(' ').slice(1).join(' ')}
                     {item.type && (
-                      <span className='ml-2 text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-gray-700 text-neutral-400 dark:text-gray-400 align-middle'>
+                      <span className='ml-2 text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-[#181818] text-neutral-400 dark:text-[#c9a55c] align-middle'>
                         {item.type}
                       </span>
                     )}
                   </span>
-                  <span className='text-sm text-neutral-500 dark:text-gray-400 whitespace-nowrap'>
+                  <span className='text-sm text-neutral-500 dark:text-[#c9a55c] whitespace-nowrap'>
                     {item.std != null
                       ? item.min != null && item.min !== item.std
                         ? `${item.min}–${item.std}天`
