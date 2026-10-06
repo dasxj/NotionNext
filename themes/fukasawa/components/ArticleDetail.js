@@ -31,7 +31,7 @@ export default function ArticleDetail(props) {
       className={`${fullWidth ? 'px-10 xl:pl-56' : 'max-w-5xl xl:pl-56'} overflow-x-auto flex-grow mx-auto w-screen md:w-full`}>
       {/* 左侧固定目录：不随页面滚动，仅宽屏显示 */}
       {post?.toc?.length > 0 && (
-        <aside className='fixed left-4 top-24 z-30 w-48 hidden xl:flex flex-col bg-white/90 backdrop-blur border border-neutral-100 rounded-md p-4 max-h-[72vh] overflow-y-auto'>
+        <aside className='fixed left-0 top-16 z-30 w-36 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-2 text-sm text-neutral-600'>
           <Catalog toc={post.toc} />
         </aside>
       )}
