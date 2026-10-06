@@ -34,7 +34,7 @@ export default function ArticleDetail(props) {
       {/* 左侧固定目录：宽屏显示，垂直居中，占位少 */}
       {post?.toc?.length > 0 && (
         <>
-          <aside className='fixed left-0 top-1/2 -translate-y-1/2 z-30 w-32 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-1 text-xs text-neutral-600'>
+          <aside className='fixed left-0 top-1/2 -translate-y-1/2 z-30 w-36 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-1 text-sm text-neutral-600'>
             <Catalog toc={post.toc} />
           </aside>
 
