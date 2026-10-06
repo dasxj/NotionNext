@@ -80,48 +80,40 @@ export default function ArticleDetail(props) {
           </div>
 
           <section className='flex-wrap flex mt-2 text-gray-400 dark:text-gray-400 font-light leading-8'>
-            <div>
+            <div className='flex items-center gap-x-4 text-neutral-600'>
               {post?.category && (
-                <>
-                  <SmartLink
-                    href={`/category/${post.category}`}
-                    passHref
-                    className='cursor-pointer text-md mr-2 hover:text-black dark:hover:text-white border-b dark:border-gray-500 border-dashed'>
-                    <i className='mr-1 fas fa-folder-open' />
-                    {post.category}
-                  </SmartLink>
-                  <span className='mr-2'>|</span>
-                </>
+                <SmartLink
+                  href={`/category/${post.category}`}
+                  passHref
+                  className='flex items-center cursor-pointer text-md hover:text-[#f0a500]'>
+                  <i className='mr-1.5 fas fa-folder-open text-[#f0a500]' />
+                  {post.category}
+                </SmartLink>
               )}
 
-              {(post?.['设计师']?.[0] ||
-                post?.['项目位置']?.[0] ||
-                post?.['项目面积']) && (
-                <div className='flex flex-wrap items-center gap-x-4 gap-y-1 text-neutral-600 mt-1'>
-                  {post?.['设计师']?.[0] && (
-                    <SmartLink
-                      href={`/zl?designer=${encodeURIComponent(post['设计师'][0])}`}
-                      className='flex items-center cursor-pointer hover:text-[#f0a500]'>
-                      <i className='mr-1.5 fas fa-user-pen text-[#f0a500]' />
-                      {post['设计师'][0]}
-                    </SmartLink>
-                  )}
-                  {post?.['项目位置']?.[0] && (
-                    <SmartLink
-                      href={`/zl?location=${encodeURIComponent(post['项目位置'][0])}`}
-                      className='flex items-center cursor-pointer hover:text-[#f0a500]'>
-                      <i className='mr-1.5 fas fa-location-dot text-[#f0a500]' />
-                      {post['项目位置'][0]}
-                    </SmartLink>
-                  )}
-                  {post?.['项目面积'] && (
-                    <span className='flex items-center'>
-                      <i className='mr-1.5 fas fa-ruler-combined text-[#f0a500]' />
-                      {post['项目面积']}
-                    </span>
-                  )}
-                </div>
+              {post?.['设计师']?.[0] && (
+                <SmartLink
+                  href={`/zl?designer=${encodeURIComponent(post['设计师'][0])}`}
+                  className='flex items-center cursor-pointer hover:text-[#f0a500]'>
+                  <i className='mr-1.5 fas fa-user-pen text-[#f0a500]' />
+                  {post['设计师'][0]}
+                </SmartLink>
               )}
+              {post?.['项目位置']?.[0] && (
+                <SmartLink
+                  href={`/zl?location=${encodeURIComponent(post['项目位置'][0])}`}
+                  className='flex items-center cursor-pointer hover:text-[#f0a500]'>
+                  <i className='mr-1.5 fas fa-location-dot text-[#f0a500]' />
+                  {post['项目位置'][0]}
+                </SmartLink>
+              )}
+              {post?.['项目面积'] && (
+                <span className='flex items-center'>
+                  <i className='mr-1.5 fas fa-ruler-combined text-[#f0a500]' />
+                  {post['项目面积']}
+                </span>
+              )}
+            </div>
 
               <div className='my-2'>
                 {post.tagItems && (
