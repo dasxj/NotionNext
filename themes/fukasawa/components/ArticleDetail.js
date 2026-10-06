@@ -80,7 +80,7 @@ export default function ArticleDetail(props) {
           </div>
 
           <section className='flex-wrap flex mt-2 text-gray-400 dark:text-gray-400 font-light leading-8'>
-            <div className='flex items-center gap-x-4 text-neutral-600'>
+            <div className='flex items-center gap-x-4 text-neutral-600 dark:text-gray-300'>
               {post?.category && (
                 <SmartLink
                   href={`/category/${post.category}`}
