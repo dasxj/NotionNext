@@ -36,30 +36,39 @@ export const useFukasawaGlobal = () => useContext(ThemeGlobalFukasawa)
 const PortalTopNav = props => {
   const { customMenu = [], siteInfo } = props
   const [open, setOpen] = useState(false)
+  const { isDarkMode, toggleDarkMode } = useGlobal()
   const rawMenus = (customMenu || []).filter(m => m && (m.href || m.name || m.title))
   // 去重：customMenu 可能已含"首页"，避免重复
   const menus = rawMenus.filter(m => m.href !== '/' && m.name !== '首页' && m.title !== '首页')
   return (
-    <header className='sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-100'>
+    <header className='sticky top-0 z-50 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur border-b border-neutral-100 dark:border-neutral-800'>
       <div className='max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between'>
-        <SmartLink href='/' className='flex items-center gap-2 font-semibold text-neutral-900 tracking-wide'>
+        <SmartLink href='/' className='flex items-center gap-2 font-semibold text-neutral-900 dark:text-neutral-100 tracking-wide'>
           <span className='inline-block w-3 h-3 bg-[#f0a500]' />
           {siteInfo?.title || '大设小计'}
         </SmartLink>
-        <nav className='hidden md:flex items-center gap-7 text-sm text-neutral-600'>
-          <SmartLink href='/' className='hover:text-neutral-900'>首页</SmartLink>
+        <nav className='hidden md:flex items-center gap-7 text-sm text-neutral-600 dark:text-neutral-400'>
+          <SmartLink href='/' className='hover:text-neutral-900 dark:hover:text-neutral-100'>首页</SmartLink>
           {menus.map(m => (
-            <SmartLink key={m.id || m.name || m.title} href={m.href || '#'} target={m.target || '_self'} className='hover:text-neutral-900'>
+            <SmartLink key={m.id || m.name || m.title} href={m.href || '#'} target={m.target || '_self'} className='hover:text-neutral-900 dark:hover:text-neutral-100'>
               {m.name || m.title}
             </SmartLink>
           ))}
+          <button onClick={toggleDarkMode} title={isDarkMode ? '切换到日间模式' : '切换到夜间模式'} className='text-lg leading-none text-neutral-600 dark:text-neutral-200 hover:text-[#f0a500]'>
+            {isDarkMode ? <i className='fas fa-sun' /> : <i className='fas fa-moon' />}
+          </button>
         </nav>
-        <button onClick={() => setOpen(!open)} className='md:hidden text-xl text-neutral-600'>
-          {open ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
-        </button>
+        <div className='md:hidden flex items-center gap-3'>
+          <button onClick={toggleDarkMode} title={isDarkMode ? '切换到日间模式' : '切换到夜间模式'} className='text-lg leading-none text-neutral-600 dark:text-neutral-200'>
+            {isDarkMode ? <i className='fas fa-sun' /> : <i className='fas fa-moon' />}
+          </button>
+          <button onClick={() => setOpen(!open)} className='text-xl text-neutral-600 dark:text-neutral-200'>
+            {open ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
+          </button>
+        </div>
       </div>
       {open && (
-        <nav className='md:hidden bg-white border-t border-neutral-100 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-700'>
+        <nav className='md:hidden bg-white dark:bg-[#0a0a0a] border-t border-neutral-100 dark:border-neutral-800 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-700 dark:text-neutral-300'>
           <SmartLink href='/'>首页</SmartLink>
           {menus.map(m => (
             <SmartLink key={m.id || m.name || m.title} href={m.href || '#'} target={m.target || '_self'}>{m.name || m.title}</SmartLink>
