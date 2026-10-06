@@ -32,8 +32,8 @@ export default function ArticleDetail(props) {
     <div
       id='container'
       className={`${fullWidth ? 'px-10 xl:pl-56' : 'max-w-5xl xl:pl-56'} overflow-x-auto flex-grow mx-auto w-screen md:w-full`}>
-      {/* 左侧固定目录：宽屏显示，垂直居中，占位少 */}
-      {post?.toc?.length > 0 && (
+      {/* 左侧固定目录：宽屏显示，垂直居中，占位少（设计流程页不用） */}
+      {post?.slug !== 'liucheng' && post?.toc?.length > 0 && (
         <>
           <aside className='fixed left-0 top-1/2 -translate-y-1/2 z-30 w-36 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-1 text-sm text-neutral-600'>
             <Catalog toc={post.toc} />
@@ -71,6 +71,7 @@ export default function ArticleDetail(props) {
       )}
 
       <article className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-24 md:px-32  dark:border-gray-700 bg-white dark:bg-[#0a0a0a]'>
+        {post?.slug !== 'liucheng' && (
         <header>
           {/* 文章Title */}
           <div className='font-bold text-4xl text-black dark:text-white'>
@@ -129,6 +130,7 @@ export default function ArticleDetail(props) {
 
           <WWAds className='w-full' orientation='horizontal' />
         </header>
+        )}
 
         {/* Notion文章主体：设计流程页走定制组件，其余走 Notion 默认渲染 */}
         <section id='article-wrapper'>
