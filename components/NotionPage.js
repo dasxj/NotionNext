@@ -1,12 +1,12 @@
 import { siteConfig } from '@/lib/config'
-import { compressImage, mapImgUrl } from '@/lib/db/notion/mapImage'
+import { mapImgUrl } from '@/lib/db/notion/mapImage'
 import NotionEmbed from '@/components/NotionEmbed'
 import NotionLink from '@/components/NotionLink'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
-import mediumZoom from '@fisch0920/medium-zoom'
+import ImageViewer from '@/components/ImageViewer'
 import 'katex/dist/katex.min.css'
 import dynamic from 'next/dynamic'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { NotionRenderer } from 'react-notion-x'
 import OriginalityProof from './OriginalityProof'
 
@@ -22,8 +22,6 @@ const NotionPage = ({ post, className }) => {
   const POST_DISABLE_DATABASE_CLICK = siteConfig('POST_DISABLE_DATABASE_CLICK')
   const SPOILER_TEXT_TAG = siteConfig('SPOILER_TEXT_TAG')
 
-  const zoomRef = useRef(null)
-  const IMAGE_ZOOM_IN_WIDTH = siteConfig('IMAGE_ZOOM_IN_WIDTH', 1200)
   // 页面首次打开时执行的勾子
   useEffect(() => {
     // 检测当前的url并自动滚动到对应目标
@@ -32,64 +30,14 @@ const NotionPage = ({ post, className }) => {
 
   // 页面文章发生变化时会执行的勾子
   useEffect(() => {
-    // 相册视图点击禁止跳转，只能放大查看图片
+    // 相册视图：若配置为点击放大而非跳转，则移除卡片链接，交给 ImageViewer 放大
     if (POST_DISABLE_GALLERY_CLICK) {
-      if (!zoomRef.current && isBrowser) {
-        zoomRef.current = mediumZoom({
-          background: 'rgba(0, 0, 0, 0.2)',
-          margin: getMediumZoomMargin()
-        })
-      }
-      // 针对页面中的gallery视图，点击后是放大图片还是跳转到gallery的内部页面
-      processGalleryImg(zoomRef?.current)
+      processGalleryImg()
     }
 
     // 页内数据库点击禁止跳转，只能查看
     if (POST_DISABLE_DATABASE_CLICK) {
       processDisableDatabaseUrl()
-    }
-
-    /**
-     * 放大查看图片时替换成高清图像
-     */
-    const articleRoot =
-      document.getElementById('notion-article') || document.body
-    const hasAnyImage = Boolean(articleRoot.querySelector('img'))
-    if (!hasAnyImage) {
-      return
-    }
-
-    const observer = new MutationObserver((mutationsList, observer) => {
-      mutationsList.forEach(mutation => {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'class'
-        ) {
-          if (mutation.target.classList.contains('medium-zoom-image--opened')) {
-            // 等待动画完成后替换为更高清的图像
-            setTimeout(() => {
-              // 获取该元素的 src 属性
-              const src = mutation?.target?.getAttribute('src')
-              //   替换为更高清的图像
-              mutation?.target?.setAttribute(
-                'src',
-                compressImage(src, IMAGE_ZOOM_IN_WIDTH)
-              )
-            }, 800)
-          }
-        }
-      })
-    })
-
-    // 监视正文容器，避免对整个 document.body 做高开销监听
-    observer.observe(articleRoot, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ['class']
-    })
-
-    return () => {
-      observer.disconnect()
     }
   }, [post])
 
@@ -135,6 +83,8 @@ const NotionPage = ({ post, className }) => {
       <AdEmbed />
       <OriginalityProof proof={post?.originalityProof} />
       {hasCodeBlock(post?.blockMap) && <PrismMac />}
+      {/* 全屏图片查看器：点击放大 + 滚轮跟随鼠标缩放 + 左右键切换 */}
+      <ImageViewer />
     </div>
   )
 }
@@ -160,20 +110,11 @@ const processDisableDatabaseUrl = () => {
 }
 
 /**
- * gallery视图，点击后是放大图片还是跳转到gallery的内部页面
+ * gallery视图：若配置为点击放大而非跳转，则移除卡片链接（交由 ImageViewer 放大）
  */
-const processGalleryImg = zoom => {
+const processGalleryImg = () => {
   setTimeout(() => {
     if (isBrowser) {
-      const imgList = document?.querySelectorAll(
-        '.notion-collection-card-cover img'
-      )
-      if (imgList && zoom) {
-        for (let i = 0; i < imgList.length; i++) {
-          zoom.attach(imgList[i])
-        }
-      }
-
       const cards = document.getElementsByClassName('notion-collection-card')
       for (const e of cards) {
         e.removeAttribute('href')
@@ -208,28 +149,6 @@ const autoScrollToHash = () => {
 const mapPageUrl = id => {
   // return 'https://www.notion.so/' + id.replace(/-/g, '')
   return '/' + id.replace(/-/g, '')
-}
-
-/**
- * 缩放
- * @returns
- */
-function getMediumZoomMargin() {
-  const width = window.innerWidth
-
-  if (width < 500) {
-    return 8
-  } else if (width < 800) {
-    return 20
-  } else if (width < 1280) {
-    return 30
-  } else if (width < 1600) {
-    return 40
-  } else if (width < 1920) {
-    return 48
-  } else {
-    return 72
-  }
 }
 
 // 代码
