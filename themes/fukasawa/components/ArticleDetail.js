@@ -124,7 +124,6 @@ export default function ArticleDetail(props) {
                   </div>
                 )}
               </div>
-            </div>
           </section>
 
           <WWAds className='w-full' orientation='horizontal' />
