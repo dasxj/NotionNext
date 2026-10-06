@@ -86,7 +86,9 @@ const ImageViewer = () => {
     if (!state.open) return
     const onMouseDown = e => {
       if (e.button === 1) {
+        // 捕获阶段优先阻止中键默认的"自动滚动"，避免图片跳位
         e.preventDefault()
+        e.stopPropagation()
         drag.current = {
           startX: e.clientX,
           startY: e.clientY,
@@ -113,11 +115,11 @@ const ImageViewer = () => {
         document.body.style.cursor = ''
       }
     }
-    window.addEventListener('mousedown', onMouseDown)
+    window.addEventListener('mousedown', onMouseDown, { capture: true })
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
     return () => {
-      window.removeEventListener('mousedown', onMouseDown)
+      window.removeEventListener('mousedown', onMouseDown, { capture: true })
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
       document.body.style.cursor = ''
@@ -154,9 +156,7 @@ const ImageViewer = () => {
           objectFit: 'contain',
           transform: `translate(${state.pan.x}px, ${state.pan.y}px) scale(${state.scale})`,
           transformOrigin: `${state.origin.x}% ${state.origin.y}%`,
-          transition: state.scale === 1 && state.pan.x === 0 && state.pan.y === 0
-            ? 'transform .2s'
-            : 'none',
+          transition: 'none',
           cursor: 'zoom-out'
         }}
       />
