@@ -11,7 +11,7 @@ import { Transition } from '@headlessui/react'
 import dynamic from 'next/dynamic'
 import SmartLink from '@/components/SmartLink'
 import { useRouter } from 'next/router'
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import ArticleDetail from './components/ArticleDetail'
 import ArticleLock from './components/ArticleLock'
 import AsideLeft from './components/AsideLeft'
@@ -20,6 +20,7 @@ import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
 import Header from './components/Header'
 import TagItemMini from './components/TagItemMini'
+import PortalHome from './components/PortalHome'
 import CONFIG from './config'
 import { Style } from './style'
 
@@ -28,6 +29,46 @@ const Live2D = dynamic(() => import('@/components/Live2D'))
 // 主题全局状态
 const ThemeGlobalFukasawa = createContext()
 export const useFukasawaGlobal = () => useContext(ThemeGlobalFukasawa)
+
+/**
+ * /zl 案例平台顶部导航（桌面端常显）
+ */
+const PortalTopNav = props => {
+  const { customMenu = [], siteInfo } = props
+  const [open, setOpen] = useState(false)
+  const rawMenus = (customMenu || []).filter(m => m && (m.href || m.name || m.title))
+  // 去重：customMenu 可能已含"首页"，避免重复
+  const menus = rawMenus.filter(m => m.href !== '/' && m.name !== '首页' && m.title !== '首页')
+  return (
+    <header className='sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-100'>
+      <div className='max-w-6xl mx-auto px-4 md:px-6 h-14 flex items-center justify-between'>
+        <SmartLink href='/' className='flex items-center gap-2 font-semibold text-neutral-900 tracking-wide'>
+          <span className='inline-block w-3 h-3 bg-[#f0a500]' />
+          {siteInfo?.title || '大设小计'}
+        </SmartLink>
+        <nav className='hidden md:flex items-center gap-7 text-sm text-neutral-600'>
+          <SmartLink href='/' className='hover:text-neutral-900'>首页</SmartLink>
+          {menus.map(m => (
+            <SmartLink key={m.id || m.name || m.title} href={m.href || '#'} target={m.target || '_self'} className='hover:text-neutral-900'>
+              {m.name || m.title}
+            </SmartLink>
+          ))}
+        </nav>
+        <button onClick={() => setOpen(!open)} className='md:hidden text-xl text-neutral-600'>
+          {open ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
+        </button>
+      </div>
+      {open && (
+        <nav className='md:hidden bg-white border-t border-neutral-100 px-4 py-3 flex flex-col gap-3 text-sm text-neutral-700'>
+          <SmartLink href='/'>首页</SmartLink>
+          {menus.map(m => (
+            <SmartLink key={m.id || m.name || m.title} href={m.href || '#'} target={m.target || '_self'}>{m.name || m.title}</SmartLink>
+          ))}
+        </nav>
+      )}
+    </header>
+  )
+}
 
 /**
  * 基础布局 采用左右两侧布局，移动端使用顶部导航栏
@@ -48,6 +89,22 @@ const LayoutBase = props => {
   const leftAreaSlot = <Live2D />
   const { onLoading, fullWidth } = useGlobal()
   const searchModal = useRef(null)
+  // /zl 资料库站（案例平台）：该站标题固定为"大设小计 资料库"，走全宽布局
+  const isPortal = props?.siteInfo?.title === '大设小计 资料库'
+
+  // /zl 案例平台：全宽布局，无侧边栏，顶部导航
+  if (isPortal) {
+    return (
+      <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
+        <div id='theme-fukasawa' className='bg-white min-h-screen'>
+          <Style />
+          <PortalTopNav {...props} />
+          <main className='w-full bg-white'>{children}</main>
+        </div>
+      </ThemeGlobalFukasawa.Provider>
+    )
+  }
+
   return (
     <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
       <div
@@ -103,9 +160,13 @@ const LayoutBase = props => {
 /**
  * 首页
  * @param {*} props notion数据
- * @returns 首页就是一个博客列表
+ * @returns 首页就是一个博客列表；/zl 为案例平台首页
  */
 const LayoutIndex = props => {
+  // /zl 资料库站走案例平台首页；其余站走博客列表
+  if (props?.siteInfo?.title === '大设小计 资料库') {
+    return <PortalHome {...props} />
+  }
   return <LayoutPostList {...props} />
 }
 
