@@ -12,6 +12,7 @@ import { formatDateFmt } from '@/lib/utils/formatDate'
 import SmartLink from '@/components/SmartLink'
 import ArticleAround from './ArticleAround'
 import Catalog from './Catalog'
+import DesignProcess from './DesignProcess'
 import TagItemMini from './TagItemMini'
 
 /**
@@ -129,9 +130,13 @@ export default function ArticleDetail(props) {
           <WWAds className='w-full' orientation='horizontal' />
         </header>
 
-        {/* Notion文章主体 */}
+        {/* Notion文章主体：设计流程页走定制组件，其余走 Notion 默认渲染 */}
         <section id='article-wrapper'>
-          {post && <NotionPage post={post} />}
+          {post?.slug === 'liucheng' ? (
+            <DesignProcess post={post} />
+          ) : (
+            post && <NotionPage post={post} />
+          )}
         </section>
 
         <section>
