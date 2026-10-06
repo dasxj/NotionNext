@@ -5,10 +5,9 @@ import { compressImage } from '@/lib/db/notion/mapImage'
  * 全屏图片查看器：替换 medium-zoom
  * - 点击正文内可放大图片 → 全屏查看
  * - 鼠标滚轮：跟随鼠标位置缩放
- * - 长按鼠标中键拖动：平移图片位置
+ * - 长按鼠标中键拖动：从按下位置抓取平移图片（自动以按下点为缩放原点并补偿偏移，不跳位）
  * - 左右方向键：按顺序切换同文章的所有图片
  * - Esc / 点击背景：关闭
- * 挂在 NotionPage 外层，通过事件委托捕获正文内 img 点击。
  */
 const ImageViewer = () => {
   const [state, setState] = useState({
@@ -19,7 +18,11 @@ const ImageViewer = () => {
     origin: { x: 50, y: 50 },
     pan: { x: 0, y: 0 }
   })
+  // 最新 state 引用，供监听器读取（避免闭包拿到旧值）
+  const stateRef = useRef(state)
+  stateRef.current = state
   const drag = useRef(null)
+  const imgRef = useRef(null)
 
   const open = (src, list) => {
     const i = list.indexOf(src)
@@ -47,7 +50,6 @@ const ImageViewer = () => {
       if (!t || t.tagName !== 'IMG') return
       const article = t.closest('#notion-article')
       if (!article) return
-      // 有有效链接（如可跳转的相册卡片）→ 放行，不拦截
       const a = t.closest('a')
       if (a && a.getAttribute('href')) return
       const imgs = article.querySelectorAll(
@@ -81,22 +83,37 @@ const ImageViewer = () => {
     return () => window.removeEventListener('wheel', onWheel, { passive: false })
   }, [state.open])
 
-  // —— 长按鼠标中键拖动：平移图片位置 ——
+  // —— 长按鼠标中键拖动：从按下点抓取平移图片 ——
   useEffect(() => {
     if (!state.open) return
     const onMouseDown = e => {
-      if (e.button === 1) {
-        // 捕获阶段优先阻止中键默认的"自动滚动"，避免图片跳位
-        e.preventDefault()
-        e.stopPropagation()
-        drag.current = {
-          startX: e.clientX,
-          startY: e.clientY,
-          panX: state.pan.x,
-          panY: state.pan.y
+      if (e.button !== 1) return
+      e.preventDefault()
+      e.stopPropagation()
+      const st = stateRef.current
+      const s = st.scale
+      const oldO = st.origin
+      let newOx = oldO.x
+      let newOy = oldO.y
+      let panX = st.pan.x
+      let panY = st.pan.y
+      const img = imgRef.current
+      if (img) {
+        const r = img.getBoundingClientRect()
+        if (r.width > 0 && r.height > 0) {
+          // 以按下点为新的缩放原点（相对图片）
+          newOx = ((e.clientX - r.left) / r.width) * 100
+          newOy = ((e.clientY - r.top) / r.height) * 100
+          // 补偿平移：原点从 oldO 变为 newO，图片缩放中心偏移 → 反向补偿避免跳位
+          const cssW = r.width / s
+          const cssH = r.height / s
+          panX = st.pan.x + ((newOx / 100) * cssW - (oldO.x / 100) * cssW) * (s - 1)
+          panY = st.pan.y + ((newOy / 100) * cssH - (oldO.y / 100) * cssH) * (s - 1)
         }
-        document.body.style.cursor = 'grabbing'
       }
+      drag.current = { startX: e.clientX, startY: e.clientY, panX, panY }
+      setState(st2 => ({ ...st2, origin: { x: newOx, y: newOy }, pan: { x: panX, y: panY } }))
+      document.body.style.cursor = 'grabbing'
     }
     const onMouseMove = e => {
       const d = drag.current
@@ -148,6 +165,7 @@ const ImageViewer = () => {
       className='fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center select-none'
       onClick={close}>
       <img
+        ref={imgRef}
         src={src ? compressImage(src, 1600) : ''}
         alt=''
         onClick={e => e.stopPropagation()}
