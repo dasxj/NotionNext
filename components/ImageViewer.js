@@ -99,12 +99,13 @@ const ImageViewer = () => {
       }
     }
     const onMouseMove = e => {
-      if (drag.current) {
+      const d = drag.current
+      if (d) {
         setState(s => ({
           ...s,
           pan: {
-            x: drag.current.panX + (e.clientX - drag.current.startX),
-            y: drag.current.panY + (e.clientY - drag.current.startY)
+            x: d.panX + (e.clientX - d.startX),
+            y: d.panY + (e.clientY - d.startY)
           }
         }))
       }
