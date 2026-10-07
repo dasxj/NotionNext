@@ -69,11 +69,13 @@ const Style = () => {
         color: #ece4d3;
     }
 
-    /* 评论容器：强覆盖任何深蓝背景(#111827/bg-night)，深色统一为黑金黑 */
-    .dp-comment {
+    /* 评论容器：强覆盖任何深蓝背景(#111827/bg-night)，深色统一为黑金黑（高特异性 + !important） */
+    #theme-fukasawa .dp-comment {
         background-color: #ffffff;
     }
-    .dark .dp-comment {
+    .dark #theme-fukasawa main .dp-comment,
+    .dark #theme-fukasawa article .dp-comment,
+    .dark #theme-fukasawa .dp-comment {
         background-color: #0a0a0a !important;
     }
 
