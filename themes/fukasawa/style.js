@@ -39,6 +39,23 @@ const Style = () => {
     .dark .dp-module {
         border-color: rgba(201, 169, 111, 0.35);
     }
+    /* 夜间模式：hover 金边 + 金属光泽扫过 */
+    .dark .dp-module {
+        position: relative;
+        overflow: hidden;
+    }
+    .dark .dp-module::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(110deg, transparent 32%, rgba(230, 200, 140, 0.45) 50%, transparent 68%);
+        transform: translateX(-130%);
+        transition: transform .65s ease;
+    }
+    .dark .dp-module:hover::after {
+        transform: translateX(130%);
+    }
     .dark .dp-module:hover {
         border-color: #c9a96f !important;
     }

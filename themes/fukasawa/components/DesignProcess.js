@@ -123,8 +123,8 @@ const DesignProcess = ({ post }) => {
               </div>
             </div>
 
-            {/* 阶段模块 */}
-            <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#c9a96f]/25 bg-neutral-100/60 dark:bg-[#181818] p-5 md:p-7 transition-all duration-300'>
+            {/* 阶段模块：日间底色主题浅金，深色黑 */}
+            <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#c9a96f]/25 bg-[#f9f1df] dark:bg-[#181818] p-5 md:p-7 transition-all duration-300'>
               {/* 阶段名(左) + 描述 + 时长框(右对齐右上角) */}
               <div className='flex items-start justify-between flex-wrap gap-3'>
                 <div className='min-w-0 flex-1'>
@@ -132,7 +132,7 @@ const DesignProcess = ({ post }) => {
                     {g.stage}
                   </h3>
                   {g.desc && (
-                    <p className='mt-1.5 text-sm leading-relaxed text-neutral-500 dark:text-gray-400'>
+                    <p className='mt-1.5 text-sm leading-relaxed text-neutral-900 dark:text-[#978d7e]'>
                       {g.desc}
                     </p>
                   )}
@@ -176,13 +176,21 @@ const DesignProcess = ({ post }) => {
                 <div>
                   <h4 className='text-sm font-semibold text-neutral-900 dark:text-[#978d7e] mb-2'>您的角色</h4>
                   <ul className='space-y-2'>
-                    {g.items.map(item => (
-                      item.role && (
-                        <li key={item.id} className='text-sm text-neutral-700 dark:text-[#ece4d3]'>
-                          {item.role}
+                    {g.items.map(item => {
+                      const mm = item.role && /^([·•●])\s*(.*)$/.exec(item.role)
+                      return item.role && (
+                        <li key={item.id} className='text-sm text-neutral-700 dark:text-[#ece4d3] flex items-start gap-1.5'>
+                          {mm ? (
+                            <>
+                              <span className='flex-shrink-0'>{mm[1]}</span>
+                              <span>{mm[2]}</span>
+                            </>
+                          ) : (
+                            <span>{item.role}</span>
+                          )}
                         </li>
                       )
-                    ))}
+                    })}
                   </ul>
                 </div>
               </div>
