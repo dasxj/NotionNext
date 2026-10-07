@@ -148,12 +148,16 @@ export default function ArticleDetail(props) {
         </section>
       </article>
 
-      {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
+      {post?.slug !== 'liucheng' && (
+        <>
+          {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
 
-      {/* 评论互动 */}
-      <div className='dp-comment duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-black'>
-        <Comment frontMatter={post} />
-      </div>
+          {/* 评论互动 */}
+          <div className='dp-comment duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-black'>
+            <Comment frontMatter={post} />
+          </div>
+        </>
+      )}
     </div>
   )
 }
