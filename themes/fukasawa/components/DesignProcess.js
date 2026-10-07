@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 
 /**
  * 设计流程页组件（/zl/liucheng）
- * 顶部标题（主标题+副标题，支持 Notion 公式区块 equation 与 header/sub_*）
- * → 竖向时间轴（左侧序号，窄屏隐藏 + 纵向引导线）→ 右侧阶段模块（内容限宽）
- * 模块内三列：我做什么 / 阶段成果(前加绿√) / 您的角色；阶段用时右上角矩形框。
- * 强调色统一 #978d7e；模块 hover 描 #978d7e 细边（CSS 实现）。
- * 数据完全动态读取 Notion「设计流程」数据库。阶段顺序按标题数字前缀排序。
+ * 顶部标题（主标题+副标题，支持公式区块 equation / header）
+ * → 竖向时间轴（左侧序号黄，窄屏隐藏 + 引导线）→ 右侧阶段模块（限宽）
+ * 模块内三列：我做什么 / 阶段成果(绿√) / 您的角色；阶段"一般工时X"右上角矩形框（贴阶段名右侧）。
+ * 主标题/序号/引导线 用黄 #f0a500（参考图2）；阶段名、列标题等强调用 #978d7e。
+ * hover 描边由 style.js 的 .dp-module 实现。数据完全动态读 Notion。
  */
 const DesignProcess = ({ post }) => {
   // —— 标题与副标题：读 Notion 页面根块的 equation / header ——
@@ -79,7 +79,8 @@ const DesignProcess = ({ post }) => {
         map.set(r.stage, { stage: r.stage, items: [], duration: null, order: Infinity })
       }
       const g = map.get(r.stage)
-      if (r.title.indexOf('一般用时') === 0) {
+      // 阶段用时行：以"一般工时"/"一般用时"开头
+      if (/^一般(用|工)时/.test(r.title)) {
         g.duration = r.title
       } else {
         g.items.push(r)
@@ -92,35 +93,36 @@ const DesignProcess = ({ post }) => {
   if (!data || data.length === 0) return null
 
   return (
-    <div className='w-full max-w-4xl mx-auto'>
-      {/* 顶部标题 */}
+    <div className='w-full max-w-6xl mx-auto'>
+      {/* 顶部标题：主标题黄（参考图2）+ 副标题灰 */}
       <div className='text-center mb-12'>
-        <h2 className='text-3xl md:text-4xl font-semibold text-neutral-900 dark:text-[#978d7e]'>
+        <h2 className='text-3xl md:text-4xl font-semibold text-[#f0a500]'>
           {heading.title}
         </h2>
         {heading.subtitle && (
-          <p className='mt-3 text-neutral-500 dark:text-[#978d7e] max-w-2xl mx-auto'>
+          <p className='mt-3 text-neutral-500 dark:text-gray-400 max-w-2xl mx-auto'>
             {heading.subtitle}
           </p>
         )}
       </div>
 
       <div className='relative'>
-        {/* 纵向引导线（窄屏隐藏） */}
-        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#978d7e]/40 dark:bg-[#978d7e]/50 max-sm:hidden' />
+        {/* 纵向引导线（黄色，窄屏隐藏） */}
+        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#f0a500]/40 dark:bg-[#f0a500]/50 max-sm:hidden' />
 
         {data.map((g, i) => (
           <div key={g.stage || i} className={`relative flex gap-6 ${i > 0 ? 'mt-6' : ''}`}>
-            {/* 序号（窄屏隐藏） */}
+            {/* 序号（黄色，窄屏隐藏） */}
             <div className='relative z-10 w-16 flex-shrink-0 hidden sm:block'>
-              <div className='w-16 h-16 rounded-full bg-[#978d7e] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
+              <div className='w-16 h-16 rounded-full bg-[#f0a500] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
                 {String(i + 1).padStart(2, '0')}
               </div>
             </div>
 
-            {/* 阶段模块：hover 描 #978d7e 细边（dp-module 由 style.js 实现） */}
+            {/* 阶段模块 */}
             <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#978d7e]/25 bg-neutral-100/60 dark:bg-[#181818] p-5 md:p-7 transition-all duration-300'>
-              <div className='flex items-center justify-between flex-wrap gap-2'>
+              {/* 阶段名 + 用时框（贴阶段名右侧，参考图2） */}
+              <div className='flex items-center flex-wrap gap-3'>
                 <h3 className='text-2xl font-semibold text-neutral-900 dark:text-[#978d7e]'>
                   {g.stage}
                 </h3>
