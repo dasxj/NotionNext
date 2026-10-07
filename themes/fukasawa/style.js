@@ -28,13 +28,27 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
-    /* 设计流程模块：hover 描主题金 #c9a96f 细边（CSS 实现，确保生效） */
+    /* 设计流程模块：hover 描主题色细边（日间 #ecd452 / 深色 #c9a96f，CSS 实现确保生效） */
     .dp-module {
-        border-color: rgba(201, 169, 111, 0.35);
+        border-color: rgba(236, 212, 82, 0.35);
     }
     .dp-module:hover {
-        border-color: #c9a96f !important;
+        border-color: #ecd452 !important;
         transition: border-color .3s ease;
+    }
+    .dark .dp-module {
+        border-color: rgba(201, 169, 111, 0.35);
+    }
+    .dark .dp-module:hover {
+        border-color: #c9a96f !important;
+    }
+
+    /* 深色模式：footer 背景深蓝(#111827)覆盖为黑金黑，避免底部深蓝条 */
+    .dark #theme-fukasawa footer,
+    .dark #theme-fukasawa .footer,
+    .dark #theme-fukasawa .site-info {
+        background-color: #0a0a0a !important;
+        color: #ece4d3;
     }
 
     /* fukasawa的首页响应式分栏 */
