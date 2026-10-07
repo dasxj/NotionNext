@@ -105,10 +105,10 @@ const LayoutBase = props => {
   if (isPortal) {
     return (
       <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
-        <div id='theme-fukasawa' className='bg-white min-h-screen'>
+        <div id='theme-fukasawa' className='bg-white dark:bg-black min-h-screen'>
           <Style />
           <PortalTopNav {...props} />
-          <main className='w-full bg-white'>{children}</main>
+          <main className='w-full bg-white dark:bg-black'>{children}</main>
         </div>
       </ThemeGlobalFukasawa.Provider>
     )

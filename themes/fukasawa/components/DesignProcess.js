@@ -5,7 +5,7 @@ import { useMemo } from 'react'
  * 顶部标题（支持公式区块）→ 竖向时间轴（序号+引导线）→ 阶段模块
  * 模块内三列：我做什么 / 阶段成果(绿√) / 您的角色(无√)；
  * 阶段名下方显示"阶段描述"(Mb]r)；时长行(纯时长/一般工时)识别为阶段时长，右对齐模块右上角。
- * 主题色：日间 #ecd452，深色(黑金) #c9a96f；hover 描边同步。数据完全动态读 Notion。
+ * 主题色：日间 #978d7e，深色(黑金) #c9a96f；hover 描边同步。数据完全动态读 Notion。
  */
 const DesignProcess = ({ post }) => {
   // —— 标题与副标题：读 Notion 页面根块的 equation / header ——
@@ -98,9 +98,9 @@ const DesignProcess = ({ post }) => {
 
   return (
     <div className='w-full max-w-4xl mx-auto'>
-      {/* 顶部标题：主标题加大 + 主题色（日间#ecd452 / 深色#c9a96f） */}
+      {/* 顶部标题：主标题加大 + 主题色（日间#978d7e / 深色#c9a96f） */}
       <div className='text-center mb-12'>
-        <h2 className='text-4xl md:text-5xl font-semibold text-[#ecd452] dark:text-[#c9a96f]'>
+        <h2 className='text-4xl md:text-5xl font-semibold text-[#978d7e] dark:text-[#c9a96f]'>
           {heading.title}
         </h2>
         {heading.subtitle && (
@@ -112,19 +112,19 @@ const DesignProcess = ({ post }) => {
 
       <div className='relative'>
         {/* 纵向引导线（主题色，窄屏隐藏） */}
-        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#ecd452]/40 dark:bg-[#c9a96f]/50 max-sm:hidden' />
+        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#978d7e]/40 dark:bg-[#c9a96f]/50 max-sm:hidden' />
 
         {data.map((g, i) => (
           <div key={g.stage || i} className={`relative flex gap-6 ${i > 0 ? 'mt-6' : ''}`}>
             {/* 序号（主题色，窄屏隐藏） */}
             <div className='relative z-10 w-16 flex-shrink-0 hidden sm:block'>
-              <div className='w-16 h-16 rounded-full bg-[#ecd452] dark:bg-[#c9a96f] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
+              <div className='w-16 h-16 rounded-full bg-[#978d7e] dark:bg-[#c9a96f] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
                 {String(i + 1).padStart(2, '0')}
               </div>
             </div>
 
-            {/* 阶段模块：日间底色主题浅金，深色黑 */}
-            <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#c9a96f]/25 bg-[#f9f1df] dark:bg-[#181818] p-5 md:p-7 transition-all duration-300'>
+            {/* 阶段模块：底色/边框/hover 由 style.js 的 .dp-module 统一控制（日间灰→hover浅主题；夜间黑→hover金边金晕） */}
+            <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#c9a96f]/25 p-5 md:p-7'>
               {/* 阶段名(左) + 描述 + 时长框(右对齐右上角) */}
               <div className='flex items-start justify-between flex-wrap gap-3'>
                 <div className='min-w-0 flex-1'>
@@ -138,7 +138,7 @@ const DesignProcess = ({ post }) => {
                   )}
                 </div>
                 {g.duration && (
-                  <span className='px-2.5 py-1 rounded-md border border-[#ecd452]/40 dark:border-[#c9a96f]/40 text-sm text-neutral-600 dark:text-[#c9a96f] whitespace-nowrap flex-shrink-0'>
+                  <span className='px-2.5 py-1 rounded-md border border-[#978d7e]/40 dark:border-[#c9a96f]/40 text-sm text-neutral-600 dark:text-[#c9a96f] whitespace-nowrap flex-shrink-0'>
                     {g.duration}
                   </span>
                 )}
@@ -151,7 +151,7 @@ const DesignProcess = ({ post }) => {
                   <ul className='space-y-2'>
                     {g.items.map(item => (
                       <li key={item.id} className='text-sm text-neutral-700 dark:text-[#ece4d3]'>
-                        <span className='text-[#ecd452] dark:text-[#c9a96f] font-medium mr-1.5'>{item.title.split(' ')[0]}</span>
+                        <span className='text-[#978d7e] dark:text-[#c9a96f] font-medium mr-1.5'>{item.title.split(' ')[0]}</span>
                         <span>{item.title.split(' ').slice(1).join(' ')}</span>
                         {item.type && (
                           <span className='ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-neutral-200/60 dark:bg-[#242424] text-neutral-500 dark:text-[#978d7e] align-middle'>{item.type}</span>

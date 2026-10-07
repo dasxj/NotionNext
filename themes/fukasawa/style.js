@@ -28,36 +28,25 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
-    /* 设计流程模块：hover 描主题色细边（日间 #ecd452 / 深色 #c9a96f，CSS 实现确保生效） */
+    /* 设计流程模块：hover 交互
+       日间：正常灰底 → hover 变浅主题色(#978d7e 系) + 描边
+       夜间：黑底 → hover 金边 #c9a96f + 金色金属光泽(边框光晕)，不做背景扫过 */
     .dp-module {
-        border-color: rgba(236, 212, 82, 0.35);
+        background-color: #f4f4f4;
+        border-color: #e6e3db;
+        transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
     }
     .dp-module:hover {
-        border-color: #ecd452 !important;
-        transition: border-color .3s ease;
+        background-color: #ece6d9;
+        border-color: #978d7e !important;
     }
     .dark .dp-module {
+        background-color: #181818;
         border-color: rgba(201, 169, 111, 0.35);
-    }
-    /* 夜间模式：hover 金边 + 金属光泽扫过 */
-    .dark .dp-module {
-        position: relative;
-        overflow: hidden;
-    }
-    .dark .dp-module::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(110deg, transparent 32%, rgba(230, 200, 140, 0.45) 50%, transparent 68%);
-        transform: translateX(-130%);
-        transition: transform .65s ease;
-    }
-    .dark .dp-module:hover::after {
-        transform: translateX(130%);
     }
     .dark .dp-module:hover {
         border-color: #c9a96f !important;
+        box-shadow: 0 0 12px rgba(201, 169, 111, 0.4), inset 0 0 6px rgba(201, 169, 111, 0.12);
     }
 
     /* 深色模式：footer 背景深蓝(#111827)覆盖为黑金黑，避免底部深蓝条 */
