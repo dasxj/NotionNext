@@ -12,8 +12,14 @@ const Style = () => {
     body{
         background-color: #ffffff;
     }
-    .dark body{
+    .dark html,
+    .dark body {
         background-color: black;
+    }
+    /* 覆盖 fukasawa 深色卡片 CSS 变量，消除底部深蓝残留 */
+    .dark {
+        --fukasawa-color-card-dark: #0a0a0a;
+        --fukasawa-color-text: #ece4d3;
     }
 
     /* 黑金深色：fukasawa 主容器与文章区深色背景改为近黑（覆盖全局 hexo-black-gray 深蓝灰） */
@@ -37,8 +43,8 @@ const Style = () => {
         transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
     }
     .dp-module:hover {
-        background-color: #ece6d9;
-        border-color: #978d7e !important;
+        background-color: #f7efd8;
+        border-color: #ecd452 !important;
     }
     .dark .dp-module {
         background-color: #181818;

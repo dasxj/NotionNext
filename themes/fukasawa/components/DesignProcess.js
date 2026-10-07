@@ -100,7 +100,7 @@ const DesignProcess = ({ post }) => {
     <div className='w-full max-w-4xl mx-auto'>
       {/* 顶部标题：主标题加大 + 主题色（日间#978d7e / 深色#c9a96f） */}
       <div className='text-center mb-12'>
-        <h2 className='text-4xl md:text-5xl font-semibold text-[#978d7e] dark:text-[#c9a96f]'>
+        <h2 className='text-4xl md:text-5xl font-semibold text-[#ecd452] dark:text-[#c9a96f]'>
           {heading.title}
         </h2>
         {heading.subtitle && (
@@ -112,13 +112,13 @@ const DesignProcess = ({ post }) => {
 
       <div className='relative'>
         {/* 纵向引导线（主题色，窄屏隐藏） */}
-        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#978d7e]/40 dark:bg-[#c9a96f]/50 max-sm:hidden' />
+        <div className='absolute left-8 top-4 bottom-4 w-px bg-[#ecd452]/40 dark:bg-[#c9a96f]/50 max-sm:hidden' />
 
         {data.map((g, i) => (
           <div key={g.stage || i} className={`relative flex gap-6 ${i > 0 ? 'mt-6' : ''}`}>
             {/* 序号（主题色，窄屏隐藏） */}
             <div className='relative z-10 w-16 flex-shrink-0 hidden sm:block'>
-              <div className='w-16 h-16 rounded-full bg-[#978d7e] dark:bg-[#c9a96f] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
+              <div className='w-16 h-16 rounded-full bg-[#ecd452] dark:bg-[#c9a96f] text-white dark:text-black flex items-center justify-center text-xl font-semibold'>
                 {String(i + 1).padStart(2, '0')}
               </div>
             </div>
@@ -138,7 +138,7 @@ const DesignProcess = ({ post }) => {
                   )}
                 </div>
                 {g.duration && (
-                  <span className='px-2.5 py-1 rounded-md border border-[#978d7e]/40 dark:border-[#c9a96f]/40 text-sm text-neutral-600 dark:text-[#c9a96f] whitespace-nowrap flex-shrink-0'>
+                  <span className='px-2.5 py-1 rounded-md border border-[#ecd452]/40 dark:border-[#c9a96f]/40 text-sm text-neutral-600 dark:text-[#c9a96f] whitespace-nowrap flex-shrink-0'>
                     {g.duration}
                   </span>
                 )}
@@ -151,7 +151,7 @@ const DesignProcess = ({ post }) => {
                   <ul className='space-y-2'>
                     {g.items.map(item => (
                       <li key={item.id} className='text-sm text-neutral-700 dark:text-[#ece4d3]'>
-                        <span className='text-[#978d7e] dark:text-[#c9a96f] font-medium mr-1.5'>{item.title.split(' ')[0]}</span>
+                        <span className='text-[#ecd452] dark:text-[#c9a96f] font-medium mr-1.5'>{item.title.split(' ')[0]}</span>
                         <span>{item.title.split(' ').slice(1).join(' ')}</span>
                         {item.type && (
                           <span className='ml-1.5 text-[10px] px-1.5 py-0.5 rounded bg-neutral-200/60 dark:bg-[#242424] text-neutral-500 dark:text-[#978d7e] align-middle'>{item.type}</span>
