@@ -52,6 +52,9 @@ export const MenuListTop = props => {
     return null
   }
 
+  // 导航项统一为当前页跳转（不在新窗口打开），覆盖 Notion Menu 侧配置的 _blank
+  links = links.map(l => ({ ...l, target: '_self' }))
+
   return (
     <>
       <nav
