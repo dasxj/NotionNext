@@ -38,13 +38,13 @@ const Style = () => {
        日间：正常灰底 → hover 变浅主题色(#978d7e 系) + 描边
        夜间：黑底 → hover 金边 #c9a96f + 金色金属光泽(边框光晕)，不做背景扫过 */
     .dp-module {
-        background-color: #f4f4f4;
-        border-color: #e6e3db;
+        background-color: #ecd452;
+        border-color: #e3c54a;
         transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
     }
     .dp-module:hover {
-        background-color: #f7efd8;
-        border-color: #ecd452 !important;
+        background-color: #e6c445;
+        border-color: #cfa83c !important;
     }
     .dark .dp-module {
         background-color: #181818;

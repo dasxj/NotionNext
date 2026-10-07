@@ -8,7 +8,7 @@ module.exports = {
     './layouts/**/*.js',
     './themes/**/*.js'
   ],
-  darkMode: BLOG.APPEARANCE === 'class' ? 'media' : 'class', // or 'media' or 'class'
+  darkMode: 'class', // fukasawa 用 html.dark 类切换主题，须用 class 模式
   theme: {
     fontFamily: fontFamilies,
     screens: {
