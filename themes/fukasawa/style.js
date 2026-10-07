@@ -28,6 +28,15 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
+    /* 设计流程模块：hover 描 #978d7e 细边（CSS 实现，确保生效） */
+    .dp-module {
+        border-color: rgba(151, 141, 126, 0.35);
+    }
+    .dp-module:hover {
+        border-color: #978d7e !important;
+        transition: border-color .3s ease;
+    }
+
     /* fukasawa的首页响应式分栏 */
     #theme-fukasawa .grid-item {
         height: auto;
