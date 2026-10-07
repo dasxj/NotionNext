@@ -20,6 +20,7 @@ import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
 import Header from './components/Header'
 import HomeHeader from '@/themes/hexo/components/Header'
+import { ThemeGlobalHexo } from '@/themes/hexo/index'
 import TagItemMini from './components/TagItemMini'
 import PortalHome from './components/PortalHome'
 import CONFIG from './config'
@@ -106,12 +107,14 @@ const LayoutBase = props => {
   if (isPortal) {
     return (
       <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
-        <div id='theme-fukasawa' className='bg-white dark:bg-black min-h-screen'>
-          <Style />
-          {/* 与主页完全一致的顶部导航 */}
-          <HomeHeader {...props} />
-          <main className='w-full bg-white dark:bg-black'>{children}</main>
-        </div>
+        <ThemeGlobalHexo.Provider value={{ searchModal }}>
+          <div id='theme-fukasawa' className='bg-white dark:bg-black min-h-screen'>
+            <Style />
+            {/* 与主页完全一致的顶部导航 */}
+            <HomeHeader {...props} />
+            <main className='w-full bg-white dark:bg-black'>{children}</main>
+          </div>
+        </ThemeGlobalHexo.Provider>
       </ThemeGlobalFukasawa.Provider>
     )
   }

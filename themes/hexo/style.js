@@ -9,14 +9,14 @@ import CONFIG from './config'
  * @returns
  */
 const Style = () => {
-  // 从配置中获取主题色，如果没有配置则使用默认值 #928CEE
-  const legacyThemeColor = siteConfig('HEXO_THEME_COLOR', '#928CEE', CONFIG)
+  // 从配置中获取主题色；统一为流程页黑金配色（日间 #ecd452 / 夜间金 #c9a96f / 深色背景纯黑）
+  const legacyThemeColor = siteConfig('HEXO_THEME_COLOR', '#ecd452', CONFIG)
   const primary = siteConfig('HEXO_COLOR_PRIMARY', legacyThemeColor, CONFIG)
-  const primaryDark = siteConfig('HEXO_COLOR_PRIMARY_DARK', primary, CONFIG)
+  const primaryDark = siteConfig('HEXO_COLOR_PRIMARY_DARK', '#c9a96f', CONFIG)
   const background = siteConfig('HEXO_COLOR_BG', '#f5f5f5', CONFIG)
-  const backgroundDark = siteConfig('HEXO_COLOR_BG_DARK', '#000000', CONFIG)
+  const backgroundDark = siteConfig('HEXO_COLOR_BG_DARK', '#0a0a0a', CONFIG)
   const surface = siteConfig('HEXO_COLOR_CARD', '#ffffff', CONFIG)
-  const surfaceDark = siteConfig('HEXO_COLOR_CARD_DARK', '#101414', CONFIG)
+  const surfaceDark = siteConfig('HEXO_COLOR_CARD_DARK', '#0a0a0a', CONFIG)
   const title = siteConfig('HEXO_COLOR_TITLE', '#4b5563', CONFIG)
   const titleDark = siteConfig('HEXO_COLOR_TITLE_DARK', '#f3f4f6', CONFIG)
   const text = siteConfig('HEXO_COLOR_TEXT', '#374151', CONFIG)

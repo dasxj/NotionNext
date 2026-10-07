@@ -41,7 +41,7 @@ const AlgoliaSearchModal = dynamic(
 )
 
 // 主题全局状态
-const ThemeGlobalHexo = createContext()
+export const ThemeGlobalHexo = createContext()
 export const useHexoGlobal = () => useContext(ThemeGlobalHexo)
 
 /**
