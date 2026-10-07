@@ -19,6 +19,7 @@ import BlogListPage from './components/BlogListPage'
 import BlogListScroll from './components/BlogListScroll'
 import BlogArchiveItem from './components/BlogPostArchive'
 import Header from './components/Header'
+import HomeHeader from '@/themes/hexo/components/Header'
 import TagItemMini from './components/TagItemMini'
 import PortalHome from './components/PortalHome'
 import CONFIG from './config'
@@ -107,7 +108,8 @@ const LayoutBase = props => {
       <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
         <div id='theme-fukasawa' className='bg-white dark:bg-black min-h-screen'>
           <Style />
-          <PortalTopNav {...props} />
+          {/* 与主页完全一致的顶部导航 */}
+          <HomeHeader {...props} />
           <main className='w-full bg-white dark:bg-black'>{children}</main>
         </div>
       </ThemeGlobalFukasawa.Provider>

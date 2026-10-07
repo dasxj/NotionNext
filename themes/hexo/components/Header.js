@@ -25,7 +25,7 @@ let windowTop = 0
 const Header = props => {
   const searchDrawer = useRef()
   const { tags, currentTag, categories, currentCategory } = props
-  const { locale } = useGlobal()
+  const { locale, isDarkMode, toggleDarkMode } = useGlobal()
   const router = useRouter()
   const [isOpen, changeShow] = useState(false)
   const showSearchButton = siteConfig('HEXO_MENU_SEARCH', false, CONFIG)
@@ -164,6 +164,13 @@ const Header = props => {
               {' '}
               <MenuListTop {...props} />
             </div>
+            {/* 日/夜模式切换 */}
+            <button
+              onClick={toggleDarkMode}
+              title={isDarkMode ? '切换到日间模式' : '切换到夜间模式'}
+              className='ml-2 w-8 h-8 justify-center items-center cursor-pointer flex text-lg leading-none text-neutral-600 dark:text-neutral-200'>
+              {isDarkMode ? <i className='fas fa-sun' /> : <i className='fas fa-moon' />}
+            </button>
             <div
               onClick={toggleMenuOpen}
               className='w-8 justify-center items-center h-8 cursor-pointer flex lg:hidden'>
