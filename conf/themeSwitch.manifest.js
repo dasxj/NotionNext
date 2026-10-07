@@ -168,8 +168,8 @@ export const THEME_SWITCH_MANIFEST = {
       { key: 'FUKASAWA_COLOR_BORDER', cssVar: '--fukasawa-color-border', label: '边框', defaultValue: '#d4d4d8' },
       { key: 'FUKASAWA_COLOR_TEXT', cssVar: '--fukasawa-color-text', label: '主文字', defaultValue: '#18181b' },
       { key: 'FUKASAWA_COLOR_TEXT_SECONDARY', cssVar: '--fukasawa-color-text-secondary', label: '次级文字', defaultValue: '#52525b' },
-      { key: 'FUKASAWA_COLOR_BG_DARK', cssVar: '--fukasawa-color-bg-dark', label: '深色模式：页面背景', defaultValue: '#111827' },
-      { key: 'FUKASAWA_COLOR_CARD_DARK', cssVar: '--fukasawa-color-card-dark', label: '深色模式：卡片背景', defaultValue: '#1f2937' },
+      { key: 'FUKASAWA_COLOR_BG_DARK', cssVar: '--fukasawa-color-bg-dark', label: '深色模式：页面背景', defaultValue: '#0a0a0a' },
+      { key: 'FUKASAWA_COLOR_CARD_DARK', cssVar: '--fukasawa-color-card-dark', label: '深色模式：卡片背景', defaultValue: '#0a0a0a' },
       { key: 'FUKASAWA_COLOR_BORDER_DARK', cssVar: '--fukasawa-color-border-dark', label: '深色模式：边框', defaultValue: '#374151' },
       { key: 'FUKASAWA_COLOR_TEXT_DARK', cssVar: '--fukasawa-color-text-dark', label: '深色模式：主文字', defaultValue: '#e5e7eb' },
       { key: 'FUKASAWA_COLOR_TEXT_SECONDARY_DARK', cssVar: '--fukasawa-color-text-secondary-dark', label: '深色模式：次级文字', defaultValue: '#d1d5db' }

@@ -16,8 +16,9 @@ const Style = () => {
     .dark body {
         background-color: black;
     }
-    /* 覆盖 fukasawa 深色卡片 CSS 变量，消除底部深蓝残留 */
+    /* 覆盖 fukasawa 深色卡片/背景 CSS 变量，消除底部深蓝残留 */
     .dark {
+        --fukasawa-color-bg-dark: #0a0a0a;
         --fukasawa-color-card-dark: #0a0a0a;
         --fukasawa-color-text: #ece4d3;
     }
