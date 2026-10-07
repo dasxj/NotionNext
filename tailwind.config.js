@@ -32,17 +32,18 @@ module.exports = {
           DEFAULT: BLOG.BACKGROUND_LIGHT || '#ffffff'
         },
         night: {
-          DEFAULT: BLOG.BACKGROUND_DARK || '#111827'
+          // 全站深色背景统一为纯黑(黑金)，避免主题默认深蓝#111827
+          DEFAULT: '#0a0a0a'
         },
         hexo: {
           'background-gray': '#f5f5f5',
-          'black-gray': '#101414',
+          'black-gray': '#0a0a0a',
           'light-gray': '#e5e5e5'
         },
         // black: '#212b36',
-        'dark-700': '#090e34b3',
+        'dark-700': '#0a0a0ab3',
         dark: {
-          DEFAULT: '#111928',
+          DEFAULT: '#0a0a0a',
           2: '#1F2A37',
           3: '#374151',
           4: '#4B5563',
