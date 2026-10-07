@@ -69,6 +69,14 @@ const Style = () => {
         color: #ece4d3;
     }
 
+    /* 评论容器：强覆盖任何深蓝背景(#111827/bg-night)，深色统一为黑金黑 */
+    .dp-comment {
+        background-color: #ffffff;
+    }
+    .dark .dp-comment {
+        background-color: #0a0a0a !important;
+    }
+
     /* fukasawa的首页响应式分栏 */
     #theme-fukasawa .grid-item {
         height: auto;
