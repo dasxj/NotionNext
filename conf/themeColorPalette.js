@@ -62,7 +62,7 @@ const THEME_COLOR_DEFAULTS = {
     TEXT_DARK: '#f3f4f6',
     TEXT_SECONDARY_DARK: '#d1d5db'
   },
-  hexo: { PRIMARY: '#928CEE', BG: '#f5f5f5', TEXT: '#374151' },
+  hexo: { PRIMARY: '#ecd452', PRIMARY_DARK: '#c9a96f', BG: '#f5f5f5', TEXT: '#374151' },
   landing: { PRIMARY: '#ef4444' },
   magzine: { PRIMARY: '#7BE986', PRIMARY_DARK: '#62BA6B', BG: '#f6f6f1' },
   matery: { PRIMARY: '#4338ca', BG: '#f5f5f5' },
