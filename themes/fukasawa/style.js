@@ -28,12 +28,12 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
-    /* 设计流程模块：hover 描 #978d7e 细边（CSS 实现，确保生效） */
+    /* 设计流程模块：hover 描主题金 #c9a96f 细边（CSS 实现，确保生效） */
     .dp-module {
-        border-color: rgba(151, 141, 126, 0.35);
+        border-color: rgba(201, 169, 111, 0.35);
     }
     .dp-module:hover {
-        border-color: #978d7e !important;
+        border-color: #c9a96f !important;
         transition: border-color .3s ease;
     }
 
