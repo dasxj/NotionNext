@@ -125,12 +125,17 @@ const DesignProcess = ({ post }) => {
 
             {/* 阶段模块：底色/边框/hover 由 style.js 的 .dp-module 统一控制（日间灰→hover浅主题；夜间黑→hover金边金晕） */}
             <div className='dp-module flex-1 min-w-0 rounded-2xl border border-neutral-200/70 dark:border-[#c9a96f]/25 p-5 md:p-7'>
-              {/* 阶段名(左) + 描述 + 时长框(右对齐右上角) */}
+              {/* 阶段名(左) + 描述 + 时长框(右对齐右上角)；竖屏时序号内联显示在标题前 */}
               <div className='flex items-start justify-between flex-wrap gap-3'>
                 <div className='min-w-0 flex-1'>
-                  <h3 className='text-2xl font-semibold text-neutral-900 dark:text-white'>
-                    {g.stage}
-                  </h3>
+                  <div className='flex items-center gap-3'>
+                    <span className='sm:hidden w-9 h-9 rounded-full bg-[#ecd452] dark:bg-[#c9a96f] text-white dark:text-black flex items-center justify-center text-sm font-semibold flex-shrink-0'>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className='text-2xl font-semibold text-neutral-900 dark:text-white'>
+                      {g.stage}
+                    </h3>
+                  </div>
                   {g.desc && (
                     <p className='mt-1.5 text-sm leading-relaxed text-neutral-900 dark:text-[#978d7e]'>
                       {g.desc}

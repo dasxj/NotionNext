@@ -21,6 +21,10 @@ const Style = () => {
         --fukasawa-color-card-dark: #0a0a0a;
         --fukasawa-color-text: #ece4d3;
     }
+    .dark #__next,
+    .dark #theme-fukasawa {
+        background-color: #0a0a0a !important;
+    }
 
     /* 黑金深色：fukasawa 主容器与文章区深色背景改为近黑（覆盖全局 hexo-black-gray 深蓝灰） */
     .dark #theme-fukasawa main,
