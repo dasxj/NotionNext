@@ -10,7 +10,7 @@ const DEFAULT_LIGHT = {
 const DEFAULT_DARK = {
   PRIMARY: '#60a5fa',
   BG: '#000000',
-  CARD: '#111827',
+  CARD: '#0a0a0a',
   TEXT: '#e5e7eb',
   TEXT_SECONDARY: '#9ca3af',
   BORDER: '#374151'
