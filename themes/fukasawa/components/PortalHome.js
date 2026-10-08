@@ -16,13 +16,6 @@ const randomPick = (arr, n) => {
   return shuffled.slice(0, Math.min(n, shuffled.length))
 }
 
-// 拉取不蒜子单页浏览量
-const fetchPagePv = url =>
-  fetch(`//busuanzi.ibruce.info/busuanzi?uri=${encodeURIComponent(url)}`)
-    .then(r => r.json())
-    .then(d => d.page_pv || 0)
-    .catch(() => 0)
-
 // 判断是否为 Notion 默认占位封面（未在 Notion 设置封面时）
 const isPlaceholderCover = c =>
   !c || c.includes('solid_beige') || c.includes('/images/page-cover/')
@@ -72,18 +65,18 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
     return Array.from(set).filter(Boolean)
   }, [posts])
 
-  // —— 拉取浏览量 ——
+  // —— 拉取浏览量（热门排序用，Vercel Analytics 真实浏览数据）——
   useEffect(() => {
     let alive = true
-    posts.forEach(p => {
-      const url = 'https://www.dsxj.xyz' + (p.href || '/')
-      fetchPagePv(url).then(pv => {
-        if (alive) setPvMap(m => ({ ...m, [p.id]: pv }))
+    fetch('/api/portal-pv')
+      .then(r => r.json())
+      .then(d => {
+        if (alive && d?.configured && d?.pvMap) setPvMap(d.pvMap)
       })
-    })
+      .catch(() => {})
     return () => { alive = false }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts])
+  }, [])
 
   // —— 筛选 + 排序 ——
   const filteredPosts = useMemo(() => {
@@ -106,7 +99,7 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
     if (sort === 'latest') {
       list = [...list].sort((a, b) => (b.publishDate || 0) - (a.publishDate || 0))
     } else if (sort === 'hot') {
-      list = [...list].sort((a, b) => (pvMap[b.id] || 0) - (pvMap[a.id] || 0))
+      list = [...list].sort((a, b) => (pvMap[b.href] || 0) - (pvMap[a.href] || 0))
     }
     return list
   }, [posts, space, style, designer, projectLocation, areaMin, areaMax, sort, pvMap])
