@@ -305,15 +305,20 @@ const Style = () => {
         color: #000 !important;
       }
 
-      /* 联系页卡片（复用设计流程页 dp-module 样式；日间：白底 + hover 主题色，夜间黑金/hover金边金晕） */
+      /* 联系页卡片（复用设计流程页 dp-module 样式；日间：白底 + hover 半透明主题色，夜间黑金/hover金边金晕） */
       #theme-hexo .dp-module {
         background-color: #ffffff;
         border-color: #e6e3db;
         transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
       }
       #theme-hexo .dp-module:hover {
-        background-color: #ecd452;
+        background-color: rgba(236, 212, 82, 0.5);
         border-color: #ecd452 !important;
+      }
+      /* hover 半透明主题色背景上，卡片内金色图标/标题加深以保证可识别（日间） */
+      #theme-hexo .dp-module:hover i,
+      #theme-hexo .dp-module:hover h3 {
+        color: #6b5d1f !important;
       }
       .dark #theme-hexo .dp-module {
         background-color: #181818;

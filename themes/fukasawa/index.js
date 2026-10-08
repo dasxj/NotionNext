@@ -108,11 +108,11 @@ const LayoutBase = props => {
     return (
       <ThemeGlobalFukasawa.Provider value={{ searchModal }}>
         <ThemeGlobalHexo.Provider value={{ searchModal }}>
-          <div id='theme-fukasawa' className='bg-white dark:bg-black min-h-screen'>
+          <div id='theme-fukasawa' className='bg-[#f5f5f5] dark:bg-black min-h-screen'>
             <Style />
-            {/* 与主页完全一致的顶部导航 */}
+            {/* 与主页完全一致的顶部导航（fixed，内容需留出顶部空间） */}
             <HomeHeader {...props} />
-            <main className='w-full bg-white dark:bg-black'>{children}</main>
+            <main className='w-full bg-[#f5f5f5] dark:bg-black pt-16'>{children}</main>
           </div>
         </ThemeGlobalHexo.Provider>
       </ThemeGlobalFukasawa.Provider>

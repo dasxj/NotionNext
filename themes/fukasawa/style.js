@@ -10,7 +10,7 @@ const Style = () => {
   return <style jsx global>{`
     // 底色
     body{
-        background-color: #ffffff;
+        background-color: #f5f5f5;
     }
     .dark html,
     .dark body {
@@ -47,15 +47,19 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
-    /* 设计流程模块：hover 交互（与首页/联系页日间统一：白底 + hover 主题色；夜间黑金 + hover 金边金属光泽，不做背景扫过） */
+    /* 设计流程模块：hover 交互（与首页/联系页日间统一：白底 + hover 半透明主题色；夜间黑金 + hover 金边金属光泽，不做背景扫过） */
     .dp-module {
         background-color: #ffffff;
         border-color: #e6e3db;
         transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
     }
     .dp-module:hover {
-        background-color: #ecd452;
+        background-color: rgba(236, 212, 82, 0.5);
         border-color: #ecd452 !important;
+    }
+    /* hover 半透明主题色背景上，卡片内金色文字加深以保证可识别（日间）；不影响实色序号圆/边框 */
+    .dp-module:hover span[class*="text-[#ecd452]"] {
+        color: #7a6a2e !important;
     }
     .dark .dp-module {
         background-color: #181818;
