@@ -73,7 +73,7 @@ const ContactPage = ({ post }) => {
   return (
     <div className='w-full'>
       {/* 上横线（主题色细线，全宽，与导航栏和标题区留间距） */}
-      <div className='mx-auto max-w-5xl border-t mt-16' style={{ borderColor: lineColor }} />
+      <div className='mx-auto max-w-5xl border-t mt-20' style={{ borderColor: lineColor }} />
 
       {/* 顶部标题区 */}
       <div className='text-center pt-24 md:pt-28 pb-2 px-4'>
@@ -148,9 +148,9 @@ const ContactPage = ({ post }) => {
                       )}
                     </p>
                   )}
-                  {/* 说明文字（Notion 列内第 3 行，可选） */}
+                  {/* 说明文字（Notion 列内第 3 行，可选）；号码/邮箱卡片说明与微信说明中心对齐 */}
                   {desc && (
-                    <p className='mt-3 text-xs text-gray-400 dark:text-gray-500 tracking-wider leading-relaxed'>{desc}</p>
+                    <p className={`${isImage ? 'mt-3' : 'mt-[58px]'} text-xs text-gray-400 dark:text-gray-500 tracking-wider leading-relaxed`}>{desc}</p>
                   )}
                 </div>
               </div>
