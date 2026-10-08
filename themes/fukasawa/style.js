@@ -111,6 +111,22 @@ const Style = () => {
         }
     }
 
+    /* 详情页目录：跟随主页(hexo)目录设置
+       深色默认文字白色+白边，悬浮与当前高亮用主题色 */
+    #theme-fukasawa a[class*='hover:text-indigo-800']:hover {
+        color: var(--theme-color) !important;
+    }
+    .dark #theme-fukasawa .catalog-item {
+        color: white !important;
+        border-color: white !important;
+    }
+    .dark #theme-fukasawa .catalog-item:hover {
+        color: var(--theme-color) !important;
+    }
+    .dark #theme-fukasawa .catalog-item.font-bold {
+        border-color: var(--theme-color) !important;
+    }
+
     .container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
