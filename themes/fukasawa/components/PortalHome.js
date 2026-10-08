@@ -305,19 +305,19 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
                 </SmartLink>
                 <div className='py-3'>
                   <SmartLink href={`/zl${p.href}`}>
-                    <div className='text-sm font-medium text-neutral-900 line-clamp-1 hover:text-neutral-600'>{p.title}</div>
+                    <div className='text-sm font-medium text-neutral-900 dark:text-white line-clamp-1 hover:text-neutral-600 dark:hover:text-neutral-300'>{p.title}</div>
                   </SmartLink>
-                  <div className='mt-1 flex items-center gap-2 text-xs text-neutral-400'>
+                  <div className='mt-1 flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-300'>
                     {p.category && <span>{p.category}</span>}
                     {(p['风格'] || []).slice(0, 2).map(s => <span key={s}>{s}</span>)}
                     <span className='ml-auto flex items-center gap-2'>
                       {p['设计师']?.[0] && (
-                        <SmartLink href={`/zl?designer=${encodeURIComponent(p['设计师'][0])}`} className='hover:text-neutral-900'>
+                        <SmartLink href={`/zl?designer=${encodeURIComponent(p['设计师'][0])}`} className='hover:text-neutral-900 dark:hover:text-neutral-100'>
                           {p['设计师'][0]}
                         </SmartLink>
                       )}
                       {p['项目位置']?.[0] && (
-                        <SmartLink href={`/zl?location=${encodeURIComponent(p['项目位置'][0])}`} className='hover:text-neutral-900'>
+                        <SmartLink href={`/zl?location=${encodeURIComponent(p['项目位置'][0])}`} className='hover:text-neutral-900 dark:hover:text-neutral-100'>
                           {p['项目位置'][0]}
                         </SmartLink>
                       )}
