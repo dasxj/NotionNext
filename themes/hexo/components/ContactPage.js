@@ -72,14 +72,14 @@ const ContactPage = ({ post }) => {
   return (
     <div className='w-full'>
       {/* 顶部标题区 */}
-      <div className='text-center pt-10 pb-8 md:pt-16 md:pb-12 px-4'>
+      <div className='text-center pt-10 pb-6 md:pt-14 md:pb-8 px-4'>
         {headings[0] && (
-          <h1 className='text-3xl md:text-5xl font-bold tracking-wide' style={{ color: 'var(--theme-color)' }}>
+          <h1 className='text-xl md:text-2xl font-medium tracking-wide' style={{ color: 'var(--theme-color)' }}>
             {headings[0]}
           </h1>
         )}
         {headings[1] && (
-          <h2 className='mt-3 text-xl md:text-2xl text-gray-700 dark:text-gray-200'>
+          <h2 className='mt-3 text-2xl md:text-4xl font-semibold text-gray-800 dark:text-gray-100'>
             {headings[1]}
           </h2>
         )}
@@ -90,16 +90,17 @@ const ContactPage = ({ post }) => {
         )}
       </div>
 
-      {/* 信息卡片区 */}
+      {/* 信息卡片区（上下细横线分隔） */}
       {columns.length > 0 && (
         <div
-          className={`grid gap-5 md:gap-8 max-w-5xl mx-auto px-4 pb-16 ${
+          className={`max-w-5xl mx-auto px-4 py-8 border-t border-b ${
             columns.length === 1
               ? 'grid-cols-1'
               : columns.length === 2
                 ? 'grid-cols-1 md:grid-cols-2'
                 : 'grid-cols-1 md:grid-cols-3'
-          }`}>
+          } grid gap-6 md:gap-10`}
+          style={{ borderColor: 'color-mix(in srgb, var(--theme-color) 28%, transparent)' }}>
           {columns.map((col, i) => {
             const title = col[0]?.text || ''
             const content = col[1] // 第 2 行：文本或微信二维码图
@@ -108,33 +109,30 @@ const ContactPage = ({ post }) => {
             const isImage = content?.type === 'image'
             const text = isImage ? '' : content?.text || ''
             const cardKey = title || i
+            const isWechat = (title || '').includes('微信')
             return (
-              <div
-                key={cardKey}
-                className='group relative rounded-xl p-6 md:p-8 transition-all duration-300 bg-white dark:bg-[#161616] border border-gray-200 dark:border-[#2b2b2b] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/40'
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--theme-color)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '')}>
-                {/* 图标 */}
-                <div
-                  className='w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-lg md:text-xl'
-                  style={{
-                    backgroundColor: 'color-mix(in srgb, var(--theme-color) 14%, transparent)',
-                    color: 'var(--theme-color)'
-                  }}>
-                  <i className={icon} />
+              <div key={cardKey} className='text-center'>
+                {/* 标题行：图标(电话/邮箱)在标题前，微信无图标；均用主题色 */}
+                <div className='flex items-center justify-center gap-2'>
+                  {icon && !isWechat && (
+                    <i
+                      className={icon}
+                      style={{ fontSize: '0.85rem', color: 'var(--theme-color)' }}
+                    />
+                  )}
+                  <h3 className='text-sm md:text-base font-medium' style={{ color: 'var(--theme-color)' }}>
+                    {title}
+                  </h3>
                 </div>
-                <h3 className='mt-4 text-lg font-semibold text-gray-800 dark:text-gray-100'>
-                  {title}
-                </h3>
                 {/* 内容 */}
                 {isImage ? (
                   <img
                     src={content.url}
                     alt={title || '二维码'}
-                    className='mt-3 w-32 md:w-36 rounded-lg border border-gray-100 dark:border-gray-700'
+                    className='mt-3 w-28 md:w-32 rounded-md border border-gray-100 dark:border-gray-700 mx-auto'
                   />
                 ) : (
-                  <p className='mt-2 text-base md:text-lg text-gray-700 dark:text-gray-300 break-all'>
+                  <p className='mt-2 text-sm md:text-base text-gray-700 dark:text-gray-300 break-all'>
                     {title.includes('电话') || title.includes('手机') ? (
                       <a
                         href={`tel:${text.replace(/[^\d+]/g, '')}`}
@@ -154,7 +152,7 @@ const ContactPage = ({ post }) => {
                 )}
                 {/* 说明文字（Notion 列内第 3 行，可选） */}
                 {desc && (
-                  <p className='mt-2 text-sm text-gray-400 dark:text-gray-500'>{desc}</p>
+                  <p className='mt-2 text-xs text-gray-400 dark:text-gray-500'>{desc}</p>
                 )}
               </div>
             )
