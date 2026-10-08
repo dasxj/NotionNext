@@ -1,161 +1,113 @@
 import { useState } from 'react'
 import Comment from '@/components/Comment'
-import { AdSlot } from '@/components/GoogleAdsense'
-import LazyImage from '@/components/LazyImage'
-import NotionIcon from '@/components/NotionIcon'
 import NotionPage from '@/components/NotionPage'
 import ShareBar from '@/components/ShareBar'
-import WWAds from '@/components/WWAds'
-import { siteConfig } from '@/lib/config'
-import { useGlobal } from '@/lib/global'
-import { formatDateFmt } from '@/lib/utils/formatDate'
-import SmartLink from '@/components/SmartLink'
-import ArticleAround from './ArticleAround'
-import Catalog from './Catalog'
 import DesignProcess from './DesignProcess'
-import TagItemMini from './TagItemMini'
+// 复用主页(hexo)详情页组件：头图 / 目录 / 版权 / 推荐 / 相邻文章
+import PostHero from '@/themes/hexo/components/PostHero'
+import Catalog from '@/themes/hexo/components/Catalog'
+import ArticleCopyright from '@/themes/hexo/components/ArticleCopyright'
+import ArticleRecommend from '@/themes/hexo/components/ArticleRecommend'
+import ArticleAdjacent from '@/themes/hexo/components/ArticleAdjacent'
 
 /**
- *
- * @param {*} param0
- * @returns
+ * 文章详情页（资料库 /zl）：样式与主页(hexo)文章详情一致
+ * - 顶部 PostHero 头图（分类/标题/时间/标签叠加在图上）
+ * - 白卡正文 Notion 排版（图片放大查看器为全局组件，保留）
+ * - 桌面右侧固定目录、移动端悬浮目录（同主页）
+ * - 文末分享 / 版权 / 推荐 / 相邻文章 / 评论
+ * - 设计流程页(liucheng)保持定制组件，不走此样式
  */
 export default function ArticleDetail(props) {
-  const { post, prev, next } = props
-  const { locale, fullWidth } = useGlobal()
+  const { post } = props
   const [tocOpen, setTocOpen] = useState(false)
 
   if (!post) {
     return <></>
   }
-  return (
-    <div
-      id='container'
-      className={`${fullWidth ? 'px-10 xl:pl-56' : 'max-w-5xl xl:pl-56'} overflow-x-auto flex-grow mx-auto w-screen md:w-full`}>
-      {/* 左侧固定目录：宽屏显示，垂直居中，占位少（设计流程页不用） */}
-      {post?.slug !== 'liucheng' && post?.toc?.length > 0 && (
-        <>
-          <aside className='fixed left-0 top-1/2 -translate-y-1/2 z-30 w-36 hidden xl:flex flex-col max-h-[70vh] overflow-y-auto px-1 text-sm text-neutral-600'>
-            <Catalog toc={post.toc} />
-          </aside>
 
-          {/* 手机：目录浮标按钮 */}
+  // 设计流程页：保持定制的时间轴组件
+  if (post?.slug === 'liucheng') {
+    return (
+      <div id='container' className='w-full'>
+        <DesignProcess post={post} />
+      </div>
+    )
+  }
+
+  const hasToc = post?.toc?.length > 1
+
+  return (
+    <div id='container' className='w-full'>
+      {/* 顶部头图（主页 PostHero 风格） */}
+      <PostHero {...props} />
+
+      {/* 主体：主区 + 右侧固定目录 */}
+      <div className='w-full max-w-6xl mx-auto py-6 lg:flex lg:space-x-6 lg:px-6'>
+        {/* 主区白卡 */}
+        <div className='w-full lg:max-w-4xl bg-white dark:bg-black lg:px-2 lg:py-4'>
+          <article
+            id='article-wrapper'
+            className='subpixel-antialiased overflow-y-hidden'>
+            {/* Notion 文章主体 */}
+            <section className='px-5 justify-center mx-auto max-w-2xl lg:max-w-full'>
+              <NotionPage post={post} />
+            </section>
+
+            {/* 分享 */}
+            <ShareBar post={post} />
+            {post?.type === 'Post' && (
+              <>
+                <ArticleCopyright {...props} />
+                <ArticleRecommend {...props} />
+                <ArticleAdjacent {...props} />
+              </>
+            )}
+          </article>
+
+          <div className='pt-4 border-dashed'></div>
+
+          {/* 评论互动 */}
+          <div className='duration-200 overflow-x-auto bg-white dark:bg-black px-3'>
+            <Comment frontMatter={post} />
+          </div>
+        </div>
+
+        {/* 桌面右侧目录（同主页 SideRight 目录） */}
+        {hasToc && (
+          <div className='hidden lg:block lg:w-80'>
+            <div className='sticky top-8'>
+              <div className='shadow rounded-xl p-4 bg-white dark:bg-black dark:border-black'>
+                <Catalog toc={post.toc} />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 移动端目录浮标按钮 */}
+      {hasToc && (
+        <>
           <button
             onClick={() => setTocOpen(!tocOpen)}
-            className='fixed left-1 top-1/2 -translate-y-1/2 z-40 xl:hidden text-neutral-500 hover:text-[#f0a500] text-lg leading-none'>
+            className='fixed left-1 top-1/2 -translate-y-1/2 z-40 lg:hidden text-neutral-500 dark:text-neutral-400 hover:text-[#c9a96f] dark:hover:text-[#c9a96f] text-lg leading-none'>
             <i className='fas fa-list' />
           </button>
 
-          {/* 手机：展开的目录抽屉 */}
+          {/* 移动端展开的目录抽屉 */}
           {tocOpen && (
-            <div className='fixed inset-y-0 left-0 z-50 w-56 bg-white shadow-xl p-4 overflow-y-auto xl:hidden'>
-              <div className='flex justify-between items-center mb-3 text-neutral-700 font-medium text-sm'>
+            <div className='fixed inset-y-0 left-0 z-50 w-56 bg-white dark:bg-black shadow-xl p-4 overflow-y-auto lg:hidden'>
+              <div className='flex justify-between items-center mb-3 text-neutral-700 dark:text-gray-200 font-medium text-sm'>
                 <span>目录</span>
-                <button onClick={() => setTocOpen(false)} className='text-neutral-400 hover:text-neutral-700'>
+                <button
+                  onClick={() => setTocOpen(false)}
+                  className='text-neutral-400 hover:text-neutral-700'>
                   <i className='fas fa-times' />
                 </button>
               </div>
               <Catalog toc={post.toc} />
             </div>
           )}
-        </>
-      )}
-      {post?.type && !post?.type !== 'Page' && post?.pageCover && (
-        <div className='w-full relative md:flex-shrink-0 overflow-hidden'>
-          <LazyImage
-            alt={post.title}
-            src={post?.pageCover}
-            className='object-cover max-h-[60vh] w-full'
-          />
-        </div>
-      )}
-
-      <article className='subpixel-antialiased overflow-y-hidden py-10 px-5 lg:pt-24 md:px-32  dark:border-gray-700 bg-white dark:bg-black'>
-        {post?.slug !== 'liucheng' && (
-        <header>
-          {/* 文章Title */}
-          <div className='font-bold text-4xl text-black dark:text-white'>
-            {siteConfig('POST_TITLE_ICON') && (
-              <NotionIcon icon={post?.pageIcon} />
-            )}
-            {post.title}
-          </div>
-
-          <section className='flex-wrap flex mt-2 text-gray-400 dark:text-gray-400 font-light leading-8'>
-            <div className='flex items-center gap-x-4 text-neutral-600 dark:text-gray-300'>
-              {post?.category && (
-                <SmartLink
-                  href={`/category/${post.category}`}
-                  passHref
-                  className='flex items-center cursor-pointer text-md hover:text-[#f0a500]'>
-                  <i className='mr-1.5 fas fa-folder-open text-[#f0a500]' />
-                  {post.category}
-                </SmartLink>
-              )}
-
-              {post?.['设计师']?.[0] && (
-                <SmartLink
-                  href={`/zl?designer=${encodeURIComponent(post['设计师'][0])}`}
-                  className='flex items-center cursor-pointer hover:text-[#f0a500]'>
-                  <i className='mr-1.5 fas fa-user-pen text-[#f0a500]' />
-                  {post['设计师'][0]}
-                </SmartLink>
-              )}
-              {post?.['项目位置']?.[0] && (
-                <SmartLink
-                  href={`/zl?location=${encodeURIComponent(post['项目位置'][0])}`}
-                  className='flex items-center cursor-pointer hover:text-[#f0a500]'>
-                  <i className='mr-1.5 fas fa-location-dot text-[#f0a500]' />
-                  {post['项目位置'][0]}
-                </SmartLink>
-              )}
-              {post?.['项目面积'] && (
-                <span className='flex items-center'>
-                  <i className='mr-1.5 fas fa-ruler-combined text-[#f0a500]' />
-                  {post['项目面积']}
-                </span>
-              )}
-            </div>
-
-              <div className='my-2'>
-                {post.tagItems && (
-                  <div className='flex flex-nowrap overflow-x-auto'>
-                    {post.tagItems.map(tag => (
-                      <TagItemMini key={tag.name} tag={tag} />
-                    ))}
-                  </div>
-                )}
-              </div>
-          </section>
-
-          <WWAds className='w-full' orientation='horizontal' />
-        </header>
-        )}
-
-        {/* Notion文章主体：设计流程页走定制组件，其余走 Notion 默认渲染 */}
-        <section id='article-wrapper'>
-          {post?.slug === 'liucheng' ? (
-            <DesignProcess post={post} />
-          ) : (
-            post && <NotionPage post={post} />
-          )}
-        </section>
-
-        <section>
-          <AdSlot type='in-article' />
-          {/* 分享 */}
-          <ShareBar post={post} />
-        </section>
-      </article>
-
-      {post?.slug !== 'liucheng' && (
-        <>
-          {post?.type === 'Post' && <ArticleAround prev={prev} next={next} />}
-
-          {/* 评论互动 */}
-          <div className='dp-comment duration-200 shadow py-6 px-12 w-screen md:w-full overflow-x-auto dark:border-gray-700 bg-white dark:bg-black'>
-            <Comment frontMatter={post} />
-          </div>
         </>
       )}
     </div>
