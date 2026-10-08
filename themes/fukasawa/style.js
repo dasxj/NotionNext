@@ -47,19 +47,15 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
-    /* 设计流程模块：hover 交互
-       日间：正常灰底 → hover 变浅主题色(#978d7e 系) + 描边
-       夜间：黑底 → hover 金边 #c9a96f + 金色金属光泽(边框光晕)，不做背景扫过 */
+    /* 设计流程模块：hover 交互（与首页/联系页日间统一：白底 + hover 主题色；夜间黑金 + hover 金边金属光泽，不做背景扫过） */
     .dp-module {
-        background-color: #f5f5f5;
+        background-color: #ffffff;
         border-color: #e6e3db;
         transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
     }
     .dp-module:hover {
-        background-color: rgba(236, 212, 82, 0.3);
+        background-color: #ecd452;
         border-color: #ecd452 !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
     }
     .dark .dp-module {
         background-color: #181818;
