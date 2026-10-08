@@ -127,7 +127,7 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
   }
 
   return (
-    <div className='w-full bg-white text-neutral-800'>
+    <div className='w-full bg-[#f5f5f5] text-neutral-800'>
       {/* ===== 顶部横幅：自动轮播 ===== */}
       {bannerPosts.length > 0 && (
         <div className='relative w-full h-[46vh] min-h-[280px] overflow-hidden bg-neutral-100'>

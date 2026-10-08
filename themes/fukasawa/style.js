@@ -57,10 +57,6 @@ const Style = () => {
         background-color: rgba(236, 212, 82, 0.5);
         border-color: #ecd452 !important;
     }
-    /* hover 半透明主题色背景上，卡片内金色文字加深以保证可识别（日间）；不影响实色序号圆/边框 */
-    .dp-module:hover span[class*="text-[#ecd452]"] {
-        color: #7a6a2e !important;
-    }
     .dark .dp-module {
         background-color: #181818;
         border-color: rgba(201, 169, 111, 0.35);

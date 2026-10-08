@@ -315,11 +315,6 @@ const Style = () => {
         background-color: rgba(236, 212, 82, 0.5);
         border-color: #ecd452 !important;
       }
-      /* hover 半透明主题色背景上，卡片内金色图标/标题加深以保证可识别（日间） */
-      #theme-hexo .dp-module:hover i,
-      #theme-hexo .dp-module:hover h3 {
-        color: #6b5d1f !important;
-      }
       .dark #theme-hexo .dp-module {
         background-color: #181818;
         border-color: rgba(201, 169, 111, 0.35);

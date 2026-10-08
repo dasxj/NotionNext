@@ -97,7 +97,7 @@ const DesignProcess = ({ post }) => {
   if (!data || data.length === 0) return null
 
   return (
-    <div className='w-full max-w-4xl mx-auto'>
+    <div className='w-full max-w-4xl mx-auto py-16 md:py-20'>
       {/* 顶部标题：主标题加大 + 主题色（日间#978d7e / 深色#c9a96f） */}
       <div className='text-center mb-12'>
         <h2 className='text-4xl md:text-5xl font-semibold text-[#ecd452] dark:text-[#c9a96f]'>
