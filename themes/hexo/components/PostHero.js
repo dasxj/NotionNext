@@ -108,7 +108,10 @@ export default function PostHero({ post, siteInfo }) {
 
                 {JSON.parse(siteConfig('ANALYTICS_BUSUANZI_ENABLE')) && (
                   <div className='busuanzi_container_page_pv font-light mr-2'>
-                    <span className='mr-2 busuanzi_value_page_pv' />
+                    <span
+                      className='mr-2 busuanzi_value_page_pv'
+                      dangerouslySetInnerHTML={{ __html: '&nbsp;' }}
+                    />
                     {locale.COMMON.VIEWS}
                   </div>
                 )}
