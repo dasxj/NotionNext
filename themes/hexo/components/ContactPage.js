@@ -106,9 +106,9 @@ const ContactPage = ({ post }) => {
             const text = isImage ? '' : content?.text || ''
             const cardKey = title || i
             return (
-              <div key={cardKey} className='dp-module flex flex-col items-center justify-center text-center rounded-2xl border w-[256px] h-[256px] p-5'>
-                {/* 标题行：图标在标题前；均用主题色 */}
-                <div className='flex items-center justify-center gap-2 tracking-wider'>
+              <div key={cardKey} className='dp-module flex flex-col items-center text-center rounded-2xl border w-[256px] h-[256px] p-5'>
+                {/* 标题行（固定在卡片顶部）：图标在标题前；均用主题色 */}
+                <div className='flex items-center justify-center gap-2 tracking-wider pt-2'>
                   {icon && (
                     <i
                       className={icon}
@@ -119,36 +119,38 @@ const ContactPage = ({ post }) => {
                     {title}
                   </h3>
                 </div>
-                {/* 内容（号码/邮箱 20px） */}
-                {isImage ? (
-                  <img
-                    src={content.url}
-                    alt={title || '二维码'}
-                    className='mt-4 w-28 md:w-32 rounded-md border border-gray-100 dark:border-gray-700 mx-auto'
-                  />
-                ) : (
-                  <p className='mt-3 text-xl text-gray-700 dark:text-gray-300 break-all tracking-wide leading-relaxed'>
-                    {title.includes('电话') || title.includes('手机') ? (
-                      <a
-                        href={`tel:${text.replace(/[^\d+]/g, '')}`}
-                        className='hover:opacity-80 transition-opacity'>
-                        {text}
-                      </a>
-                    ) : title.includes('邮箱') || title.includes('mail') ? (
-                      <a
-                        href={`mailto:${text.trim()}`}
-                        className='hover:opacity-80 transition-opacity'>
-                        {text}
-                      </a>
-                    ) : (
-                      text
-                    )}
-                  </p>
-                )}
-                {/* 说明文字（Notion 列内第 3 行，可选） */}
-                {desc && (
-                  <p className='mt-3 text-xs text-gray-400 dark:text-gray-500 tracking-wider leading-relaxed'>{desc}</p>
-                )}
+                {/* 内容区（号码/邮箱/二维码垂直居中） */}
+                <div className='flex-1 w-full flex flex-col items-center justify-center'>
+                  {isImage ? (
+                    <img
+                      src={content.url}
+                      alt={title || '二维码'}
+                      className='w-28 md:w-32 rounded-md border border-gray-100 dark:border-gray-700 mx-auto'
+                    />
+                  ) : (
+                    <p className='text-xl text-gray-700 dark:text-gray-300 break-all tracking-wide leading-relaxed'>
+                      {title.includes('电话') || title.includes('手机') ? (
+                        <a
+                          href={`tel:${text.replace(/[^\d+]/g, '')}`}
+                          className='hover:opacity-80 transition-opacity'>
+                          {text}
+                        </a>
+                      ) : title.includes('邮箱') || title.includes('mail') ? (
+                        <a
+                          href={`mailto:${text.trim()}`}
+                          className='hover:opacity-80 transition-opacity'>
+                          {text}
+                        </a>
+                      ) : (
+                        text
+                      )}
+                    </p>
+                  )}
+                  {/* 说明文字（Notion 列内第 3 行，可选） */}
+                  {desc && (
+                    <p className='mt-3 text-xs text-gray-400 dark:text-gray-500 tracking-wider leading-relaxed'>{desc}</p>
+                  )}
+                </div>
               </div>
             )
           })}
