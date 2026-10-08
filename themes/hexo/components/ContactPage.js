@@ -119,8 +119,10 @@ const ContactPage = ({ post }) => {
                     {title}
                   </h3>
                 </div>
-                {/* 内容区（号码/邮箱/二维码垂直居中） */}
-                <div className='flex-1 w-full flex flex-col items-center justify-center'>
+                {/* 内容区：二维码卡片 flex 居中；号码/邮箱卡片与二维码图片中心对齐（偏移 62px） */}
+                <div
+                  className={`w-full flex flex-col items-center ${isImage ? 'flex-1 justify-center' : 'justify-start'}`}
+                  style={isImage ? undefined : { paddingTop: '62px' }}>
                   {isImage ? (
                     <img
                       src={content.url}
