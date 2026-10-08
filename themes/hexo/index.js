@@ -20,6 +20,7 @@ import BlogPostListScroll from './components/BlogPostListScroll'
 import ButtonJumpToComment from './components/ButtonJumpToComment'
 import ButtonRandomPostMini from './components/ButtonRandomPostMini'
 import Card from './components/Card'
+import ContactPage from './components/ContactPage'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -64,7 +65,7 @@ const LayoutBase = props => {
   const showArticleSwitchPlaceholder =
     hexoArticleRouteLoading && isArticleSlugPage && onLoading
 
-  const headerSlot = post ? (
+  const headerSlot = post && post.slug !== 'lianxi' ? (
     <PostHero {...props} />
   ) : router.route === '/' &&
     siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? (
@@ -307,7 +308,12 @@ const LayoutSlug = props => {
               className='subpixel-antialiased overflow-y-hidden'>
               {/* Notion文章主体 */}
               <section className='px-5 justify-center mx-auto max-w-2xl lg:max-w-full'>
-                {post && <NotionPage post={post} />}
+                {post &&
+                  (post.slug === 'lianxi' ? (
+                    <ContactPage post={post} />
+                  ) : (
+                    <NotionPage post={post} />
+                  ))}
               </section>
 
               {/* 分享 */}
