@@ -81,6 +81,11 @@ export default function PostHero({ post, siteInfo }) {
                     <i className='mr-1 fas fa-ruler-combined' /> {post['项目面积']}
                   </div>
                 )}
+                {post['风格']?.length > 0 && (
+                  <div className='pl-1 mr-2'>
+                    <i className='mr-1 fas fa-tags' /> {post['风格'].slice(0, 2).join(' / ')}
+                  </div>
+                )}
               </div>
             ) : (
               /* —— 主页：时间行（原样） —— */
@@ -112,20 +117,7 @@ export default function PostHero({ post, siteInfo }) {
           </section>
 
           <div className='mt-4 mb-1'>
-            {post?.['设计师'] ? (
-              /* —— 资料库：风格（替代标签，无风格则不显示） —— */
-              post['风格']?.length > 0 ? (
-                <div className='flex justify-center flex-nowrap overflow-x-auto gap-2'>
-                  {post['风格'].map(s => (
-                    <span
-                      key={s}
-                      className='px-2 py-1 border rounded-sm dark:border-white text-white text-sm shadow-text-md'>
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              ) : null
-            ) : (
+            {post?.['设计师'] ? null : (
               post.tagItems && (
                 <div className='flex justify-center flex-nowrap overflow-x-auto'>
                   {post.tagItems.map(tag => (
