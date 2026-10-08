@@ -33,7 +33,7 @@ const THEME_COLOR_DEFAULTS = {
     BORDER_DARK: '#3f3f46'
   },
   example: { PRIMARY: '#6b7280', BG: '#f8fafc' },
-  fukasawa: { BG: '#eeedee' },
+  fukasawa: { PRIMARY: '#ecd452', PRIMARY_DARK: '#c9a96f', BG: '#eeedee' },
   fuwari: {
     PRIMARY: '#b8a320',
     BG: '#f3f4f8',

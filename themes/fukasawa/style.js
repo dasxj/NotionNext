@@ -27,6 +27,14 @@ const Style = () => {
         background-color: #0a0a0a !important;
     }
 
+    /* 资料库主题色变量（日间/深色），供目录/进度条等跟随主题高亮 */
+    #theme-fukasawa {
+        --theme-color: #ecd452;
+    }
+    .dark #theme-fukasawa {
+        --theme-color: #c9a96f;
+    }
+
     /* 黑金深色：fukasawa 主容器与文章区深色背景改为近黑（覆盖全局 hexo-black-gray 深蓝灰） */
     .dark #theme-fukasawa main,
     .dark #theme-fukasawa article,
@@ -111,8 +119,7 @@ const Style = () => {
         }
     }
 
-    /* 详情页目录：跟随主页(hexo)目录设置
-       深色默认文字白色+白边，悬浮与当前高亮用主题色 */
+    /* 详情页目录与进度条：跟随主页(hexo)设置，高亮用主题色 */
     #theme-fukasawa a[class*='hover:text-indigo-800']:hover {
         color: var(--theme-color) !important;
     }
@@ -123,8 +130,15 @@ const Style = () => {
     .dark #theme-fukasawa .catalog-item:hover {
         color: var(--theme-color) !important;
     }
-    .dark #theme-fukasawa .catalog-item.font-bold {
+    /* 当前高亮项：文字与边框用主题色（日间/深色一致） */
+    #theme-fukasawa .catalog-item.font-bold,
+    #theme-fukasawa .catalog-item.font-bold .truncate {
+        color: var(--theme-color) !important;
         border-color: var(--theme-color) !important;
+    }
+    /* 阅读进度条用主题色 */
+    #theme-fukasawa .bg-indigo-600 {
+        background-color: var(--theme-color) !important;
     }
 
     .container {
