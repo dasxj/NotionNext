@@ -72,8 +72,8 @@ const ContactPage = ({ post }) => {
 
   return (
     <div className='w-full'>
-      {/* 上横线（主题色细线，全宽，与标题区留三段换行） */}
-      <div className='mx-auto max-w-5xl border-t' style={{ borderColor: lineColor }} />
+      {/* 上横线（主题色细线，全宽，与导航栏和标题区留间距） */}
+      <div className='mx-auto max-w-5xl border-t mt-16' style={{ borderColor: lineColor }} />
 
       {/* 顶部标题区 */}
       <div className='text-center pt-24 md:pt-28 pb-2 px-4'>
