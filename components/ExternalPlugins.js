@@ -12,6 +12,7 @@ import ExternalScript from './ExternalScript'
 import WebWhiz from './Webwhiz'
 import { useGlobal } from '@/lib/global'
 import IconFont from './IconFont'
+import ClientOnly from './ClientOnly'
 import { getPageCanCopy } from '@/lib/utils/copyPermission'
 
 /**
@@ -281,7 +282,10 @@ const ExternalPlugin = props => {
       {WEB_WHIZ_ENABLED && <WebWhiz />}
       {AD_WWADS_BLOCK_DETECT && <AdBlockDetect />}
       {TIANLI_KEY && <TianliGPT />}
-      <VConsole />
+      {/* ssr:false 组件挂载后再渲染，避免 hydration 不一致 */}
+      <ClientOnly>
+        <VConsole />
+      </ClientOnly>
       {ENABLE_NPROGRSS && <LoadingProgress />}
       {pluginsIdle && <AosAnimation />}
       {ANALYTICS_51LA_ID && ANALYTICS_51LA_CK && <LA51 />}

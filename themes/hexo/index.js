@@ -2,6 +2,7 @@ import Comment from '@/components/Comment'
 import replaceSearchResult from '@/components/Mark'
 import NotionPage from '@/components/NotionPage'
 import ShareBar from '@/components/ShareBar'
+import ClientOnly from '@/components/ClientOnly'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { isBrowser } from '@/lib/utils'
@@ -167,7 +168,9 @@ const LayoutBase = props => {
         <RightFloatArea floatSlot={floatSlot} />
 
         {/* 全文搜索 */}
-        <AlgoliaSearchModal cRef={searchModal} {...props} />
+        <ClientOnly>
+          <AlgoliaSearchModal cRef={searchModal} {...props} />
+        </ClientOnly>
 
         {/* 页脚 */}
         <Footer title={siteConfig('TITLE')} />

@@ -4,6 +4,7 @@ import NotionEmbed from '@/components/NotionEmbed'
 import NotionLink from '@/components/NotionLink'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
 import ImageViewer from '@/components/ImageViewer'
+import ClientOnly from '@/components/ClientOnly'
 import 'katex/dist/katex.min.css'
 import dynamic from 'next/dynamic'
 import { useEffect } from 'react'
@@ -68,21 +69,25 @@ const NotionPage = ({ post, className }) => {
         mapPageUrl={mapPageUrl}
         mapImageUrl={mapImgUrl}
         components={{
-          Code,
+          Code: ClientOnlyCode,
           Collection,
           Embed: NotionEmbed,
           Equation,
           Link: NotionLink,
-          Modal,
-          Pdf,
+          Modal: ClientOnlyModal,
+          Pdf: ClientOnlyPdf,
           Quote: NotionQuote,
-          Tweet
+          Tweet: ClientOnlyTweet
         }}
       />
 
       <AdEmbed />
       <OriginalityProof proof={post?.originalityProof} />
-      {hasCodeBlock(post?.blockMap) && <PrismMac />}
+      {hasCodeBlock(post?.blockMap) && (
+        <ClientOnly>
+          <PrismMac />
+        </ClientOnly>
+      )}
       {/* 全屏图片查看器：点击放大 + 滚轮跟随鼠标缩放 + 左右键切换 */}
       <ImageViewer />
     </div>
@@ -151,13 +156,11 @@ const mapPageUrl = id => {
   return '/' + id.replace(/-/g, '')
 }
 
-// 代码
-const Code = dynamic(
-  () =>
-    import('react-notion-x/build/third-party/code').then(m => {
-      return m.Code
-    }),
-  { ssr: false }
+// 代码（ssr:false 动态组件，挂载后再渲染避免 hydration 不一致）
+const ClientOnlyCode = props => (
+  <ClientOnly>
+    <Code {...props} />
+  </ClientOnly>
 )
 
 // 公式
@@ -212,6 +215,25 @@ const Collection = dynamic(
 const Modal = dynamic(
   () => import('react-notion-x/build/third-party/modal').then(m => m.Modal),
   { ssr: false }
+)
+
+// Modal 挂载后再渲染，避免 ssr:false 造成 hydration 不一致
+const ClientOnlyModal = props => (
+  <ClientOnly>
+    <Modal {...props} />
+  </ClientOnly>
+)
+
+const ClientOnlyPdf = props => (
+  <ClientOnly>
+    <Pdf {...props} />
+  </ClientOnly>
+)
+
+const ClientOnlyTweet = ({ id }) => (
+  <ClientOnly>
+    <TweetEmbed tweetId={id} />
+  </ClientOnly>
 )
 
 const Tweet = ({ id }) => {

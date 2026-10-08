@@ -1,4 +1,5 @@
 import Live2D from '@/components/Live2D'
+import ClientOnly from '@/components/ClientOnly'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import dynamic from 'next/dynamic'
@@ -99,7 +100,10 @@ export default function SideRight(props) {
           siteConfig('COMMENT_WALINE_RECENT') && <HexoRecentComments />}
 
         {rightAreaSlot}
-        <FaceBookPage />
+        {/* ssr:false 组件需挂载后再渲染，避免 hydration 不一致 */}
+        <ClientOnly>
+          <FaceBookPage />
+        </ClientOnly>
         <Live2D />
       </div>
     </div>

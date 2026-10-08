@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { getQueryParam } from '../lib/utils'
 import ErrorHandler from '@/lib/utils/errorHandler'
 import { Analytics } from '@vercel/analytics/next'
+import ClientOnly from '@/components/ClientOnly'
 
 // 各种扩展插件 这个要阻塞引入
 import BLOG from '@/blog.config'
@@ -103,7 +104,10 @@ const MyApp = ({ Component, pageProps }) => {
       ) : (
         content
       )}
-      <Analytics />
+      {/* Analytics 需挂载后再渲染，避免 SSR 占位与客户端脚本不一致的 hydration 报错 */}
+      <ClientOnly>
+        <Analytics />
+      </ClientOnly>
     </>
   )
 }
