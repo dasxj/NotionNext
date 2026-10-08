@@ -49,9 +49,12 @@ const PortalHome = ({ posts = [], categoryOptions = [], siteInfo }) => {
   // —— 浏览量（热门排序用）——
   const [pvMap, setPvMap] = useState({})
 
-  // —— 横幅：每次刷新随机选 5-6 张 ——
+  // —— 横幅：挂载后随机选 5-6 张（SSR 渲染空，避免服务端/客户端随机不一致导致 hydration 报错）——
   const [bannerIndex, setBannerIndex] = useState(0)
-  const bannerPosts = useState(() => randomPick(posts, 6))[0]
+  const [bannerPosts, setBannerPosts] = useState([])
+  useEffect(() => {
+    setBannerPosts(randomPick(posts, 6))
+  }, [posts])
   useEffect(() => {
     if (bannerPosts.length <= 1) return
     const t = setInterval(() => setBannerIndex(i => (i + 1) % bannerPosts.length), 5000)

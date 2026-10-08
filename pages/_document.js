@@ -11,9 +11,6 @@ const darkModeScript = `
 (function() {
   const darkMode = localStorage.getItem('darkMode')
 
-  const prefersDark =
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-
   const defaultAppearance = '${BLOG.APPEARANCE || 'auto'}'
 
   let shouldBeDark = darkMode === 'true' || darkMode === 'dark'
@@ -22,13 +19,13 @@ const darkModeScript = `
     if (defaultAppearance === 'dark') {
       shouldBeDark = true
     } else if (defaultAppearance === 'auto') {
-      // 检查是否在深色模式时间范围内
+      // 按时间判断是否在深色模式时间范围内（不跟随系统深色，保持与服务端一致）
       const date = new Date()
       const hours = date.getHours()
       const darkTimeStart = ${BLOG.APPEARANCE_DARK_TIME ? BLOG.APPEARANCE_DARK_TIME[0] : 18}
       const darkTimeEnd = ${BLOG.APPEARANCE_DARK_TIME ? BLOG.APPEARANCE_DARK_TIME[1] : 6}
       
-      shouldBeDark = prefersDark || (hours >= darkTimeStart || hours < darkTimeEnd)
+      shouldBeDark = hours >= darkTimeStart || hours < darkTimeEnd
     }
   }
   

@@ -316,16 +316,12 @@ export function isPreferDark() {
     return true
   }
   if (BLOG.APPEARANCE === 'auto') {
-    // 系统深色模式或时间是夜间时，强行置为夜间模式
+    // 按时间自动切换夜间模式（不跟随系统深色，避免与服务端渲染不一致）
     const date = new Date()
-    const prefersDarkMode = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches
     return (
-      prefersDarkMode ||
-      (BLOG.APPEARANCE_DARK_TIME &&
-        (date.getHours() >= BLOG.APPEARANCE_DARK_TIME[0] ||
-          date.getHours() < BLOG.APPEARANCE_DARK_TIME[1]))
+      BLOG.APPEARANCE_DARK_TIME &&
+      (date.getHours() >= BLOG.APPEARANCE_DARK_TIME[0] ||
+        date.getHours() < BLOG.APPEARANCE_DARK_TIME[1])
     )
   }
   return false
