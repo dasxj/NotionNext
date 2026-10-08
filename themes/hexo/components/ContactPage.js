@@ -94,16 +94,9 @@ const ContactPage = ({ post }) => {
         )}
       </div>
 
-      {/* 信息卡片区：三张小卡片，样式完全复用设计流程页的 dp-module（日间灰底/夜间黑金 + hover 主题色描边） */}
+      {/* 信息卡片区：三张 256x256 正方形卡片，样式完全复用设计流程页的 dp-module（日间灰底/夜间黑金 + hover 主题色描边） */}
       {columns.length > 0 && (
-        <div
-          className={`max-w-5xl mx-auto px-4 py-8 ${
-            columns.length === 1
-              ? 'grid-cols-1'
-              : columns.length === 2
-                ? 'grid-cols-1 md:grid-cols-2'
-                : 'grid-cols-1 md:grid-cols-3'
-          } grid gap-6 md:gap-10`}>
+        <div className='max-w-5xl mx-auto px-4 py-8 flex flex-wrap justify-center items-center gap-6 md:gap-10'>
           {columns.map((col, i) => {
             const title = col[0]?.text || ''
             const content = col[1] // 第 2 行：文本或微信二维码图
@@ -113,28 +106,28 @@ const ContactPage = ({ post }) => {
             const text = isImage ? '' : content?.text || ''
             const cardKey = title || i
             return (
-              <div key={cardKey} className='dp-module text-center rounded-2xl border p-5 md:p-7'>
+              <div key={cardKey} className='dp-module flex flex-col items-center justify-center text-center rounded-2xl border w-[256px] h-[256px] p-5'>
                 {/* 标题行：图标在标题前；均用主题色 */}
-                <div className='flex items-center justify-center gap-2'>
+                <div className='flex items-center justify-center gap-2 tracking-wider'>
                   {icon && (
                     <i
                       className={icon}
                       style={{ fontSize: '0.85rem', color: 'var(--theme-color)' }}
                     />
                   )}
-                  <h3 className='text-xs font-medium' style={{ color: 'var(--theme-color)' }}>
+                  <h3 className='text-xs font-medium tracking-wider' style={{ color: 'var(--theme-color)' }}>
                     {title}
                   </h3>
                 </div>
-                {/* 内容（16px） */}
+                {/* 内容（号码/邮箱 20px） */}
                 {isImage ? (
                   <img
                     src={content.url}
                     alt={title || '二维码'}
-                    className='mt-3 w-28 md:w-32 rounded-md border border-gray-100 dark:border-gray-700 mx-auto'
+                    className='mt-4 w-28 md:w-32 rounded-md border border-gray-100 dark:border-gray-700 mx-auto'
                   />
                 ) : (
-                  <p className='mt-2 text-base text-gray-700 dark:text-gray-300 break-all'>
+                  <p className='mt-3 text-xl text-gray-700 dark:text-gray-300 break-all tracking-wide leading-relaxed'>
                     {title.includes('电话') || title.includes('手机') ? (
                       <a
                         href={`tel:${text.replace(/[^\d+]/g, '')}`}
@@ -154,7 +147,7 @@ const ContactPage = ({ post }) => {
                 )}
                 {/* 说明文字（Notion 列内第 3 行，可选） */}
                 {desc && (
-                  <p className='mt-2 text-xs text-gray-400 dark:text-gray-500'>{desc}</p>
+                  <p className='mt-3 text-xs text-gray-400 dark:text-gray-500 tracking-wider leading-relaxed'>{desc}</p>
                 )}
               </div>
             )

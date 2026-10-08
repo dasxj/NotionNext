@@ -301,7 +301,12 @@ const LayoutSlug = props => {
   }, [post])
   return (
     <>
-      <div className='w-full lg:hover:shadow lg:border rounded-t-xl lg:rounded-xl lg:px-2 lg:py-4 bg-white dark:bg-hexo-black-gray dark:border-black article'>
+      <div
+        className={`w-full article ${
+          post?.slug === 'lianxi'
+            ? '!bg-transparent !border-transparent !shadow-none !rounded-none lg:!px-0 !py-0'
+            : 'lg:hover:shadow lg:border rounded-t-xl lg:rounded-xl lg:px-2 lg:py-4 bg-white dark:bg-hexo-black-gray dark:border-black'
+        }`}>
         {lock && <ArticleLock validPassword={validPassword} />}
 
         {!lock && post && (
