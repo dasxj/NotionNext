@@ -19,10 +19,13 @@ export default async function handler(req, res) {
   const from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
   const to = new Date().toISOString()
   const teamId = process.env.VERCEL_TEAM_ID
+  // 按页面路径(requestPath)维度聚合浏览量
   const url =
-    `https://api.vercel.com/v1/web-analytics/top-pages?` +
+    `https://api.vercel.com/v1/query/web-analytics/visits/aggregate?` +
     `projectId=${encodeURIComponent(projectId)}` +
-    `&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&limit=100` +
+    `&by=requestPath` +
+    `&since=${encodeURIComponent(from)}&until=${encodeURIComponent(to)}` +
+    `&limit=100` +
     (teamId ? `&teamId=${encodeURIComponent(teamId)}` : '')
 
   try {
@@ -37,14 +40,14 @@ export default async function handler(req, res) {
     }
     const data = await r.json()
 
-    // 兼容解析：找出 { path, views } 数组
+    // 兼容解析：找出 { requestPath, pageviews } 数组
     let rows = Array.isArray(data) ? data : data?.data || data?.rows || []
     if (Array.isArray(data?.result)) rows = data.result
     const pvMap = {}
     rows.forEach(row => {
-      const path = row?.path || row?.page || row?.url
+      const path = row?.requestPath || row?.path || row?.page || row?.url
       const views =
-        row?.views ?? row?.pageviews ?? row?.pv ?? row?.viewCount ?? row?.visits ?? 0
+        row?.pageviews ?? row?.views ?? row?.count ?? row?.pv ?? row?.viewCount ?? row?.visits ?? 0
       if (path && views != null) {
         pvMap[path] = Number(views) || 0
       }
