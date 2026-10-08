@@ -304,6 +304,27 @@ const Style = () => {
       #theme-hexo #home-nav-button a:hover {
         color: #000 !important;
       }
+
+      /* 联系页卡片（复用设计流程页 dp-module 样式：日间灰底/hover浅主题，夜间黑金/hover金边金晕） */
+      #theme-hexo .dp-module {
+        background-color: #f5f5f5;
+        border-color: #e6e3db;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      }
+      #theme-hexo .dp-module:hover {
+        background-color: rgba(236, 212, 82, 0.3);
+        border-color: #ecd452 !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .dark #theme-hexo .dp-module {
+        background-color: #181818;
+        border-color: rgba(201, 169, 111, 0.35);
+      }
+      .dark #theme-hexo .dp-module:hover {
+        border-color: #c9a96f !important;
+        box-shadow: 0 0 12px rgba(201, 169, 111, 0.4), inset 0 0 6px rgba(201, 169, 111, 0.12);
+      }
   `}</style>
   )
 }
