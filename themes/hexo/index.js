@@ -22,6 +22,7 @@ import ButtonJumpToComment from './components/ButtonJumpToComment'
 import ButtonRandomPostMini from './components/ButtonRandomPostMini'
 import Card from './components/Card'
 import ContactPage from './components/ContactPage'
+import DesignProcess from './components/DesignProcess'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -66,7 +67,7 @@ const LayoutBase = props => {
   const showArticleSwitchPlaceholder =
     hexoArticleRouteLoading && isArticleSlugPage && onLoading
 
-  const headerSlot = post && post.slug !== 'lianxi' ? (
+  const headerSlot = post && !['lianxi', 'liucheng'].includes(post.slug) ? (
     <PostHero {...props} />
   ) : router.route === '/' &&
     siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? (
@@ -303,7 +304,7 @@ const LayoutSlug = props => {
     <>
       <div
         className={`w-full article ${
-          post?.slug === 'lianxi'
+          ['lianxi', 'liucheng'].includes(post?.slug)
             ? '!bg-transparent !border-transparent !shadow-none !rounded-none lg:!px-0 !py-0'
             : 'lg:hover:shadow lg:border rounded-t-xl lg:rounded-xl lg:px-2 lg:py-4 bg-white dark:bg-hexo-black-gray dark:border-black'
         }`}>
@@ -319,6 +320,8 @@ const LayoutSlug = props => {
                 {post &&
                   (post.slug === 'lianxi' ? (
                     <ContactPage post={post} />
+                  ) : post.slug === 'liucheng' ? (
+                    <DesignProcess post={post} />
                   ) : (
                     <NotionPage post={post} />
                   ))}
@@ -337,8 +340,8 @@ const LayoutSlug = props => {
 
             <div className='pt-4 border-dashed'></div>
 
-            {/* 评论互动（联系页不显示） */}
-            {post?.slug !== 'lianxi' && (
+            {/* 评论互动（联系页/设计流程页不显示） */}
+            {!['lianxi', 'liucheng'].includes(post?.slug) && (
               <div className='duration-200 overflow-x-auto bg-white dark:bg-hexo-black-gray px-3'>
                 <Comment frontMatter={post} />
               </div>
